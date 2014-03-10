@@ -60,6 +60,7 @@ namespace Hoe.UI.Sale
             }
 
             (Controller as BillsController).SetCurrentBillProduct(CurrentBillProduct);
+			RefreshCurrentProduct();
         }
 
         public void SelectBillInList(Bill bill)
@@ -97,6 +98,11 @@ namespace Hoe.UI.Sale
         {
             (bill_productsGridView.DataSource as BindingSource).Remove(product);
         }
+
+		public void RefreshCurrentProduct()
+		{
+			(billsGridView.DataSource as BindingSource).ResetCurrentItem();
+		}
 
         /*
          * util method

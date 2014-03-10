@@ -2,7 +2,7 @@
 /database/mongo/bin/
 /database/mongo/data/
 /database/mongo/log/
-/release/
+/releases/
 /requires/
 **/debug/
 **/bin/

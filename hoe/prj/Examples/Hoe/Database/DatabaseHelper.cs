@@ -5,6 +5,7 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Hoe.Basic.Model;
+using System.Configuration;
 
 namespace Hoe.Basic.DB
 {
@@ -17,7 +18,7 @@ namespace Hoe.Basic.DB
             {
                 if (server == null)
                 {
-                    String connectionString = "mongodb://localhost";
+					String connectionString = ConfigurationManager.AppSettings["mongoConnectionStr"];
                     server = new MongoClient(connectionString).GetServer();
                 }
                 return server;

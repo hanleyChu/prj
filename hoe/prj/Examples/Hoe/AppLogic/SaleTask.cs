@@ -65,7 +65,7 @@ namespace Hoe.Basic.AppLogic
             {
                 if (products == null)
                 {
-                    products = new List<Product>();
+					products = ProductDao.GetAll();
                 }
                 return products;
             }
@@ -187,17 +187,13 @@ namespace Hoe.Basic.AppLogic
                 TriggerRepoProductsChanged(this, new ProductChangeEventArg(product, ModelChangeEventArg.INSERT));
             }
 
-            // check if the bill is ready for assemblage
-            if (CurrentBill.Products.Count == 0 || CurrentBill.Products.Count<Product>(b => b.Quantity < b.Demand) > 0)
-            {
-                CurrentBill.AssemblageOK = false;
-                CurrentBill.Completed = false;
-
-                // trigger the bill event
-                //TriggerBillsChanged(this, EventArgs.Empty);
-            }
-
-            BillDao.Update(CurrentBill);
+			// check if the bill is ready for assemblage
+			if (CurrentBill.Products.Count == 0 || CurrentBill.Products.Count<Product>(b => b.Quantity < b.Demand) > 0)
+			{
+				CurrentBill.AssemblageOK = false;
+				CurrentBill.Completed = false;
+			}
+			BillDao.Update(CurrentBill);
             ProductDao.Update(product);
 
         }

@@ -98,6 +98,9 @@ namespace Hoe.Basic.Controller
             Product removedProduct = task.CurrentBillProduct;
             (View as IBillsView).RemoveFromProductsList(removedProduct);
             task.CancelProductToRepo(removedProduct);
+
+			(View as IBillsView).RefreshCurrentProduct();
+			
             
         }
 

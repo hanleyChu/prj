@@ -31,5 +31,10 @@ namespace Hoe.Basic.View
          */
         void RemoveFromProductsList(Product product);
 
+		/*
+		 * refresh current product on the bill list view 
+		 */
+		void RefreshCurrentProduct();
+
     }
 }
