@@ -156,7 +156,7 @@ namespace Hoe.UI.Repo
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                (Controller as RepoController).FilterProducts(this.nameOfProductTextBox.Text.Trim());
+                (Controller as RepoController).FilterProducts(this.nameOrNormOfProductTextBox.Text.Trim());
             }
         }
 

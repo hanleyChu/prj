@@ -36,12 +36,10 @@
             this.countOfProductTextBox = new System.Windows.Forms.TextBox();
             this.addProductButton = new System.Windows.Forms.Button();
             this.showAllButton = new System.Windows.Forms.Button();
-            this.nameOfProductLabel = new System.Windows.Forms.Label();
-            this.nameOfProductTextBox = new System.Windows.Forms.TextBox();
+            this.nameOrNormOfProductLabel = new System.Windows.Forms.Label();
+            this.nameOrNormOfProductTextBox = new System.Windows.Forms.TextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.productsDataGridView = new System.Windows.Forms.DataGridView();
-            this.productMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Material = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +48,8 @@
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -76,8 +76,8 @@
             this.splitContainer1.Panel1.Controls.Add(this.countOfProductTextBox);
             this.splitContainer1.Panel1.Controls.Add(this.addProductButton);
             this.splitContainer1.Panel1.Controls.Add(this.showAllButton);
-            this.splitContainer1.Panel1.Controls.Add(this.nameOfProductLabel);
-            this.splitContainer1.Panel1.Controls.Add(this.nameOfProductTextBox);
+            this.splitContainer1.Panel1.Controls.Add(this.nameOrNormOfProductLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.nameOrNormOfProductTextBox);
             // 
             // splitContainer1.Panel2
             // 
@@ -136,7 +136,7 @@
             // 
             // showAllButton
             // 
-            this.showAllButton.Location = new System.Drawing.Point(191, 11);
+            this.showAllButton.Location = new System.Drawing.Point(241, 12);
             this.showAllButton.Name = "showAllButton";
             this.showAllButton.Size = new System.Drawing.Size(75, 23);
             this.showAllButton.TabIndex = 5;
@@ -144,22 +144,22 @@
             this.showAllButton.UseVisualStyleBackColor = true;
             this.showAllButton.Click += new System.EventHandler(this.showAllButton_Click);
             // 
-            // nameOfProductLabel
+            // nameOrNormOfProductLabel
             // 
-            this.nameOfProductLabel.AutoSize = true;
-            this.nameOfProductLabel.Location = new System.Drawing.Point(28, 16);
-            this.nameOfProductLabel.Name = "nameOfProductLabel";
-            this.nameOfProductLabel.Size = new System.Drawing.Size(29, 12);
-            this.nameOfProductLabel.TabIndex = 4;
-            this.nameOfProductLabel.Text = "名称";
+            this.nameOrNormOfProductLabel.AutoSize = true;
+            this.nameOrNormOfProductLabel.Location = new System.Drawing.Point(12, 16);
+            this.nameOrNormOfProductLabel.Name = "nameOrNormOfProductLabel";
+            this.nameOrNormOfProductLabel.Size = new System.Drawing.Size(59, 12);
+            this.nameOrNormOfProductLabel.TabIndex = 4;
+            this.nameOrNormOfProductLabel.Text = "名称/规格";
             // 
-            // nameOfProductTextBox
+            // nameOrNormOfProductTextBox
             // 
-            this.nameOfProductTextBox.Location = new System.Drawing.Point(67, 12);
-            this.nameOfProductTextBox.Name = "nameOfProductTextBox";
-            this.nameOfProductTextBox.Size = new System.Drawing.Size(112, 21);
-            this.nameOfProductTextBox.TabIndex = 3;
-            this.nameOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameOfProductTextBox_KeyPress);
+            this.nameOrNormOfProductTextBox.Location = new System.Drawing.Point(75, 12);
+            this.nameOrNormOfProductTextBox.Name = "nameOrNormOfProductTextBox";
+            this.nameOrNormOfProductTextBox.Size = new System.Drawing.Size(158, 21);
+            this.nameOrNormOfProductTextBox.TabIndex = 3;
+            this.nameOrNormOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameOfProductTextBox_KeyPress);
             // 
             // splitContainer2
             // 
@@ -202,20 +202,6 @@
             this.productsDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.productsDataGridView_CellValidating);
             this.productsDataGridView.SelectionChanged += new System.EventHandler(this.gridview_currentProductChanged);
             this.productsDataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.productsDataGridView_MouseClick);
-            // 
-            // productMenu
-            // 
-            this.productMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteProductMenuItem});
-            this.productMenu.Name = "productMenu";
-            this.productMenu.Size = new System.Drawing.Size(101, 26);
-            // 
-            // deleteProductMenuItem
-            // 
-            this.deleteProductMenuItem.Name = "deleteProductMenuItem";
-            this.deleteProductMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.deleteProductMenuItem.Text = "删除";
-            this.deleteProductMenuItem.Click += new System.EventHandler(this.deleteProductMenuItem_Click);
             // 
             // Id
             // 
@@ -275,6 +261,20 @@
             this.UnitPrice.Name = "UnitPrice";
             this.UnitPrice.Visible = false;
             // 
+            // productMenu
+            // 
+            this.productMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteProductMenuItem});
+            this.productMenu.Name = "productMenu";
+            this.productMenu.Size = new System.Drawing.Size(101, 26);
+            // 
+            // deleteProductMenuItem
+            // 
+            this.deleteProductMenuItem.Name = "deleteProductMenuItem";
+            this.deleteProductMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.deleteProductMenuItem.Text = "删除";
+            this.deleteProductMenuItem.Click += new System.EventHandler(this.deleteProductMenuItem_Click);
+            // 
             // RepoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -301,8 +301,8 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button showAllButton;
-        private System.Windows.Forms.Label nameOfProductLabel;
-        private System.Windows.Forms.TextBox nameOfProductTextBox;
+        private System.Windows.Forms.Label nameOrNormOfProductLabel;
+        private System.Windows.Forms.TextBox nameOrNormOfProductTextBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView productsDataGridView;
         private System.Windows.Forms.Button addToBillButton;

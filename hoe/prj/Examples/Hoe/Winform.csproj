@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MVCSharp\MVCSharp.csproj">
-      <Project>{C04A36B0-4A58-45D4-B95B-A4A58AFEBC95}</Project>
+      <Project>{c04a36b0-4a58-45d4-b95b-a4a58afebc95}</Project>
       <Name>MVCSharp</Name>
     </ProjectReference>
     <ProjectReference Include="Basic.csproj">

@@ -38,12 +38,12 @@ namespace Hoe.Basic.Controller
             }
         }
 
-        public void FilterProducts(String name)
+        public void FilterProducts(String nameOrName)
         {
-            if (String.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(nameOrName))
                 (Task as SaleTask).Products = ProductDao.GetAll();
             else
-                (Task as SaleTask).Products = ProductDao.FindLikeName(name);
+                (Task as SaleTask).Products = ProductDao.FindLike(nameOrName);
         }
 
         
