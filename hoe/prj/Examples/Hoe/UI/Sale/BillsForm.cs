@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +16,15 @@ using Hoe.Basic.View;
 using Hoe.Basic.AppLogic;
 using Hoe.Basic.Model;
 using System.Threading;
+using Hoe.Reporter;
 
 namespace Hoe.UI.Sale
 {
     [View(typeof(SaleTask), SaleTask.BillsView)]
     public partial class BillsForm : WinFormView, IBillsView
     {
+        private HtmlReporterForm reporter = new HtmlReporterForm();
+
         public BillsForm()
         {
             InitializeComponent();
@@ -312,6 +315,11 @@ namespace Hoe.UI.Sale
             }
 
             (Controller as BillsController).FilterBillsByProductName(content,(bool?)this.statusComboBox.SelectedValue);
+        }
+
+        private void statUnfinishedBillMenuItem_Click(object sender, EventArgs e)
+        {
+            reporter.Display("unfinishedBills.vm", (Controller as BillsController).GetUnfinishedBills());
         }
     }
 }

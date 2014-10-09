@@ -66,6 +66,9 @@ namespace Hoe.Basic.AppLogic
                 if (products == null)
                 {
 					products = ProductDao.GetAll();
+
+                    if (products == null)
+                        products = new List<Product>();
                 }
                 return products;
             }

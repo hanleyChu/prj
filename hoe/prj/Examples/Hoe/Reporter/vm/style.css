@@ -1,0 +1,7 @@
+* {margin:0; padding:0; outline:none}
+body {font:12px Verdana,Arial; margin:25px; repeat-x; color:#091f30}
+
+.sortable {width:980px; border:1px solid #000000; margin:0 auto 15px}
+.sortable th { border:1px solid;}
+.sortable th h3 {font-size:14px; padding:6px 8px 8px}
+.sortable td { text-align:center; padding:4px 6px 6px; border:1px solid #000000;}

@@ -77,6 +77,7 @@
             this.depositTextBox = new System.Windows.Forms.TextBox();
             this.depositLabel = new System.Windows.Forms.Label();
             this.totalPriceLabel = new System.Windows.Forms.Label();
+            this.statUnfinishedBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -102,22 +103,23 @@
             // billMenu
             // 
             this.billMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statUnfinishedBillMenuItem,
             this.sortBillsMenuItem,
             this.deleteBillMenuItem});
             this.billMenu.Name = "billMenu";
-            this.billMenu.Size = new System.Drawing.Size(101, 48);
+            this.billMenu.Size = new System.Drawing.Size(161, 92);
             // 
             // sortBillsMenuItem
             // 
             this.sortBillsMenuItem.Name = "sortBillsMenuItem";
-            this.sortBillsMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.sortBillsMenuItem.Size = new System.Drawing.Size(160, 22);
             this.sortBillsMenuItem.Text = "整理";
             this.sortBillsMenuItem.Click += new System.EventHandler(this.sortBillsMenuItem_Click);
             // 
             // deleteBillMenuItem
             // 
             this.deleteBillMenuItem.Name = "deleteBillMenuItem";
-            this.deleteBillMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.deleteBillMenuItem.Size = new System.Drawing.Size(160, 22);
             this.deleteBillMenuItem.Text = "删除";
             this.deleteBillMenuItem.Click += new System.EventHandler(this.deleteBillMenuItem_Click);
             // 
@@ -565,6 +567,13 @@
             this.totalPriceLabel.TabIndex = 3;
             this.totalPriceLabel.Text = "合计(￥)";
             // 
+            // statUnfinishedBillMenuItem
+            // 
+            this.statUnfinishedBillMenuItem.Name = "statUnfinishedBillMenuItem";
+            this.statUnfinishedBillMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.statUnfinishedBillMenuItem.Text = "统计未完成情况";
+            this.statUnfinishedBillMenuItem.Click += new System.EventHandler(this.statUnfinishedBillMenuItem_Click);
+            // 
             // BillsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -644,6 +653,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn productRemark;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
+        private System.Windows.Forms.ToolStripMenuItem statUnfinishedBillMenuItem;
     }
 }
 

@@ -41,6 +41,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -140,6 +141,14 @@
     <ProjectReference Include="Basic.csproj">
       <Project>{2CC3C9D7-B091-4215-AC2E-B500881522D1}</Project>
       <Name>Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="CommonForm.csproj">
+      <Project>{e658c463-33ca-43c0-b0f1-f287bfbbb10f}</Project>
+      <Name>CommonForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="Reporter\Reporter.csproj">
+      <Project>{e51d67d8-cfab-4174-8c18-2525cc4c554d}</Project>
+      <Name>Reporter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

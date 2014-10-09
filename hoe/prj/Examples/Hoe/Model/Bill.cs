@@ -36,7 +36,19 @@ namespace Hoe.Basic.Model
 
         public ObjectId Id { get; set; }
         public String Phone{set; get;}
-        public DateTime DeliveryDate { set; get; }
+
+        private DateTime deliveryDate;
+        public DateTime DeliveryDate 
+        { 
+            set
+            {
+                deliveryDate = value;
+            } 
+            get
+            {
+                return deliveryDate.Date;
+            } 
+        }
         public String Number { set; get; }
         public String Remark { set; get; }
         public bool Completed { set; get; }

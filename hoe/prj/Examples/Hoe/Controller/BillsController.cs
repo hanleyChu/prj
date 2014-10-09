@@ -239,5 +239,18 @@ namespace Hoe.Basic.Controller
             }
         }
 
+        public List<Bill> GetUnfinishedBills()
+        {
+            List<Bill> bills = (Task as SaleTask).Bills;
+            if (bills != null)
+            {
+                // sort bills by completed descending and deliveryDate ascending
+                List<Bill> unfinishedBills = (from b in bills where b.Completed==false orderby b.Completed ascending, b.DeliveryDate ascending select b).ToList();
+                return unfinishedBills;
+            }
+
+            return new List<Bill>();
+        }
+
     }
 }

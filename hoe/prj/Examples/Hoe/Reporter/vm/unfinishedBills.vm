@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<table cellpadding="0" cellspacing="0" border="0" id="table" class="sortable">
+		<thead>
+			<tr>
+				<th><h3>ID</h3></th>
+				<th><h3>订单编号</h3></th>
+				<th><h3>提货日期</h3></th>
+				<th><h3>名称</h3></th>
+				<th><h3>材料</h3></th>
+				<th><h3>规格</h3></th>
+				<th><h3>需求</h3></th>
+				<th><h3>已完成</h3></th>
+				<th><h3>缺</h3></th>
+				<th><h3>是否完成</h3></th>
+			</tr>
+		</thead>
+		<tbody>
+				#set($bills = $model)
+				#foreach ($bill in $bills)
+					#set($count = $bill.Products.Count)
+					<tr>
+						<td rowspan="$count">$velocityCount</td>
+						<td rowspan="$count">$bill.Number</td>
+						<td rowspan="$count">${bill.DeliveryDate.ToShortDateString()}</td>
+
+					#foreach ($product in $bill.Products)
+					#set($requires = $product.Demand - $product.Quantity)
+
+					#if($velocityCount > 1)
+						<tr>
+					#end
+					
+						<td>$product.Name</td>
+						<td>$product.Material</td>
+						<td>$product.Norm</td>
+						<td>$product.Demand</td>
+						<td>$product.Quantity</td>
+						<td>$requires</td>
+						<td>
+							#if($requires == 0)
+								√
+							#end
+						</td>
+					</tr>
+					#end
+				#end				
+			
+		</tbody>
+  </table>
+</body>
+</html>
