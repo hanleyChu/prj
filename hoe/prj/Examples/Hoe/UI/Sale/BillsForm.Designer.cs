@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.billMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.statUnfinishedBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortBillsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -77,7 +78,9 @@
             this.depositTextBox = new System.Windows.Forms.TextBox();
             this.depositLabel = new System.Windows.Forms.Label();
             this.totalPriceLabel = new System.Windows.Forms.Label();
-            this.statUnfinishedBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.billProductMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.plusBillProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.minusBillProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -98,6 +101,7 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bill_productsGridView)).BeginInit();
+            this.billProductMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // billMenu
@@ -107,7 +111,14 @@
             this.sortBillsMenuItem,
             this.deleteBillMenuItem});
             this.billMenu.Name = "billMenu";
-            this.billMenu.Size = new System.Drawing.Size(161, 92);
+            this.billMenu.Size = new System.Drawing.Size(161, 70);
+            // 
+            // statUnfinishedBillMenuItem
+            // 
+            this.statUnfinishedBillMenuItem.Name = "statUnfinishedBillMenuItem";
+            this.statUnfinishedBillMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.statUnfinishedBillMenuItem.Text = "统计未完成情况";
+            this.statUnfinishedBillMenuItem.Click += new System.EventHandler(this.statUnfinishedBillMenuItem_Click);
             // 
             // sortBillsMenuItem
             // 
@@ -468,6 +479,7 @@
             this.bill_productsGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.bill_productsGridView_CellEndEdit);
             this.bill_productsGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.bill_productsDataGridView_CellValidating);
             this.bill_productsGridView.SelectionChanged += new System.EventHandler(this.gridView_currentBillProductChanged);
+            this.bill_productsGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.bills_productsGridView_MouseClick);
             // 
             // PName
             // 
@@ -567,12 +579,25 @@
             this.totalPriceLabel.TabIndex = 3;
             this.totalPriceLabel.Text = "合计(￥)";
             // 
-            // statUnfinishedBillMenuItem
+            // billProductMenu
             // 
-            this.statUnfinishedBillMenuItem.Name = "statUnfinishedBillMenuItem";
-            this.statUnfinishedBillMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.statUnfinishedBillMenuItem.Text = "统计未完成情况";
-            this.statUnfinishedBillMenuItem.Click += new System.EventHandler(this.statUnfinishedBillMenuItem_Click);
+            this.billProductMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plusBillProductMenuItem,
+            this.minusBillProductMenuItem});
+            this.billProductMenu.Name = "billProductMenu";
+            this.billProductMenu.Size = new System.Drawing.Size(101, 48);
+            // 
+            // plusBillProductMenuItem
+            // 
+            this.plusBillProductMenuItem.Name = "plusBillProductMenuItem";
+            this.plusBillProductMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.plusBillProductMenuItem.Text = "添加";
+            // 
+            // minusBillProductMenuItem
+            // 
+            this.minusBillProductMenuItem.Name = "minusBillProductMenuItem";
+            this.minusBillProductMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.minusBillProductMenuItem.Text = "退回";
             // 
             // BillsForm
             // 
@@ -607,6 +632,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bill_productsGridView)).EndInit();
+            this.billProductMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -645,6 +671,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn AssemblageOk;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Completed;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
+        private System.Windows.Forms.ToolStripMenuItem statUnfinishedBillMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn PName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Material;
@@ -653,7 +680,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn productRemark;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
-        private System.Windows.Forms.ToolStripMenuItem statUnfinishedBillMenuItem;
+        private System.Windows.Forms.ContextMenuStrip billProductMenu;
+        private System.Windows.Forms.ToolStripMenuItem plusBillProductMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem minusBillProductMenuItem;
     }
 }
 

@@ -28,10 +28,10 @@ namespace Hoe.Basic.DAO
                 return null;
         }
 
-        public static List<Product> FindLike(String nameOrNorm)
+        public static List<Product> FindLike(String nameOrNorm, String material)
         {
             List<Product> products = new List<Product>();
-            MongoCursor mc = DatabaseHelper.ProductCollection.FindAs<Product>(Query.Or(new IMongoQuery[]{Query.Matches("Name", nameOrNorm),Query.Matches("Norm", nameOrNorm)}));
+            MongoCursor mc = DatabaseHelper.ProductCollection.FindAs<Product>(Query.And(Query.Or(new IMongoQuery[]{Query.Matches("Name", nameOrNorm),Query.Matches("Norm", nameOrNorm)}),Query.Matches("Material", material)));
 
             foreach (Product product in mc)
             {

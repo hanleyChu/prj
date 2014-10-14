@@ -143,7 +143,7 @@ namespace Hoe.UI.Sale
 
         private void gridView_currentBillProductChanged(object sender, EventArgs e)
         {
-            (Controller as BillsController).SetCurrentBillProduct(CurrentBillProduct);
+           (Controller as BillsController).SetCurrentBillProduct(CurrentBillProduct);
         }
 
         private void showRepoButton_Click(object sender, EventArgs e)
@@ -321,5 +321,25 @@ namespace Hoe.UI.Sale
         {
             reporter.Display("unfinishedBills.vm", (Controller as BillsController).GetUnfinishedBills());
         }
+
+        // TODO: right click context menu to help incrementing and decrementing product on current product
+        private void bills_productsGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // make right click row selected
+                var hit = this.bill_productsGridView.HitTest(e.X, e.Y);
+                int count = this.bill_productsGridView.Rows.Count;
+                if (hit.RowIndex < count && hit.RowIndex >= 0)
+                {
+                    this.bill_productsGridView.CurrentCell = this.bill_productsGridView.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
+                    this.bill_productsGridView.Rows[hit.RowIndex].Selected = true;
+                    this.bill_productsGridView.Focus();
+                }
+
+                //this.billProductMenu.Show(this.billsGridView, e.X, e.Y);
+            }
+        }
+
     }
 }

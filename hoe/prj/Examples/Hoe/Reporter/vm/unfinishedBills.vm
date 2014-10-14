@@ -45,6 +45,8 @@
 						<td>
 							#if($requires == 0)
 								√
+							#else
+							    &nbsp;
 							#end
 						</td>
 					</tr>

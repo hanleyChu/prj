@@ -91,7 +91,7 @@ namespace Hoe.UI.Repo
 
         private void showAllButton_Click(object sender, EventArgs e)
         {
-            (Controller as RepoController).FilterProducts("");
+            (Controller as RepoController).FilterProducts("","");
         }
 
         private void productsDataGridView_MouseClick(object sender, MouseEventArgs e)
@@ -156,8 +156,21 @@ namespace Hoe.UI.Repo
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                (Controller as RepoController).FilterProducts(this.nameOrNormOfProductTextBox.Text.Trim());
+                queryProducts();
             }
+        }
+
+        private void materialOfProductTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                queryProducts();
+            }
+        }
+
+        private void queryProducts()
+        {
+            (Controller as RepoController).FilterProducts(this.nameOrNormOfProductTextBox.Text.Trim(), this.materialOfProductTextBox.Text.Trim());
         }
 
     }

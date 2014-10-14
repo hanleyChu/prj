@@ -50,6 +50,8 @@
             this.UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialOfProductTextBox = new System.Windows.Forms.TextBox();
+            this.materialOfProductLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,6 +72,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.materialOfProductLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.materialOfProductTextBox);
             this.splitContainer1.Panel1.Controls.Add(this.addToBillButton);
             this.splitContainer1.Panel1.Controls.Add(this.countOfProductLabel);
             this.splitContainer1.Panel1.Controls.Add(this.showBillsButton);
@@ -82,13 +86,13 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(955, 478);
-            this.splitContainer1.SplitterDistance = 43;
+            this.splitContainer1.Size = new System.Drawing.Size(955, 549);
+            this.splitContainer1.SplitterDistance = 75;
             this.splitContainer1.TabIndex = 0;
             // 
             // addToBillButton
             // 
-            this.addToBillButton.Location = new System.Drawing.Point(688, 11);
+            this.addToBillButton.Location = new System.Drawing.Point(868, 40);
             this.addToBillButton.Name = "addToBillButton";
             this.addToBillButton.Size = new System.Drawing.Size(75, 23);
             this.addToBillButton.TabIndex = 2;
@@ -99,7 +103,7 @@
             // countOfProductLabel
             // 
             this.countOfProductLabel.AutoSize = true;
-            this.countOfProductLabel.Location = new System.Drawing.Point(588, 15);
+            this.countOfProductLabel.Location = new System.Drawing.Point(768, 44);
             this.countOfProductLabel.Name = "countOfProductLabel";
             this.countOfProductLabel.Size = new System.Drawing.Size(29, 12);
             this.countOfProductLabel.TabIndex = 1;
@@ -117,7 +121,7 @@
             // 
             // countOfProductTextBox
             // 
-            this.countOfProductTextBox.Location = new System.Drawing.Point(622, 12);
+            this.countOfProductTextBox.Location = new System.Drawing.Point(802, 41);
             this.countOfProductTextBox.Name = "countOfProductTextBox";
             this.countOfProductTextBox.Size = new System.Drawing.Size(59, 21);
             this.countOfProductTextBox.TabIndex = 0;
@@ -126,9 +130,9 @@
             // 
             // addProductButton
             // 
-            this.addProductButton.Location = new System.Drawing.Point(783, 11);
+            this.addProductButton.Location = new System.Drawing.Point(787, 11);
             this.addProductButton.Name = "addProductButton";
-            this.addProductButton.Size = new System.Drawing.Size(75, 23);
+            this.addProductButton.Size = new System.Drawing.Size(75, 22);
             this.addProductButton.TabIndex = 6;
             this.addProductButton.Text = "新货入库";
             this.addProductButton.UseVisualStyleBackColor = true;
@@ -136,9 +140,9 @@
             // 
             // showAllButton
             // 
-            this.showAllButton.Location = new System.Drawing.Point(241, 12);
+            this.showAllButton.Location = new System.Drawing.Point(243, 12);
             this.showAllButton.Name = "showAllButton";
-            this.showAllButton.Size = new System.Drawing.Size(75, 23);
+            this.showAllButton.Size = new System.Drawing.Size(75, 48);
             this.showAllButton.TabIndex = 5;
             this.showAllButton.Text = "显示全部";
             this.showAllButton.UseVisualStyleBackColor = true;
@@ -147,7 +151,7 @@
             // nameOrNormOfProductLabel
             // 
             this.nameOrNormOfProductLabel.AutoSize = true;
-            this.nameOrNormOfProductLabel.Location = new System.Drawing.Point(12, 16);
+            this.nameOrNormOfProductLabel.Location = new System.Drawing.Point(12, 17);
             this.nameOrNormOfProductLabel.Name = "nameOrNormOfProductLabel";
             this.nameOrNormOfProductLabel.Size = new System.Drawing.Size(59, 12);
             this.nameOrNormOfProductLabel.TabIndex = 4;
@@ -157,7 +161,7 @@
             // 
             this.nameOrNormOfProductTextBox.Location = new System.Drawing.Point(75, 12);
             this.nameOrNormOfProductTextBox.Name = "nameOrNormOfProductTextBox";
-            this.nameOrNormOfProductTextBox.Size = new System.Drawing.Size(158, 21);
+            this.nameOrNormOfProductTextBox.Size = new System.Drawing.Size(162, 21);
             this.nameOrNormOfProductTextBox.TabIndex = 3;
             this.nameOrNormOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameOfProductTextBox_KeyPress);
             // 
@@ -171,8 +175,8 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.productsDataGridView);
-            this.splitContainer2.Size = new System.Drawing.Size(955, 431);
-            this.splitContainer2.SplitterDistance = 388;
+            this.splitContainer2.Size = new System.Drawing.Size(955, 470);
+            this.splitContainer2.SplitterDistance = 423;
             this.splitContainer2.TabIndex = 0;
             // 
             // productsDataGridView
@@ -196,7 +200,7 @@
             this.productsDataGridView.RowHeadersVisible = false;
             this.productsDataGridView.RowTemplate.Height = 23;
             this.productsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.productsDataGridView.Size = new System.Drawing.Size(955, 388);
+            this.productsDataGridView.Size = new System.Drawing.Size(955, 423);
             this.productsDataGridView.TabIndex = 0;
             this.productsDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.productsDataGridView_CellEndEdit);
             this.productsDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.productsDataGridView_CellValidating);
@@ -275,11 +279,28 @@
             this.deleteProductMenuItem.Text = "删除";
             this.deleteProductMenuItem.Click += new System.EventHandler(this.deleteProductMenuItem_Click);
             // 
+            // materialOfProductTextBox
+            // 
+            this.materialOfProductTextBox.Location = new System.Drawing.Point(75, 39);
+            this.materialOfProductTextBox.Name = "materialOfProductTextBox";
+            this.materialOfProductTextBox.Size = new System.Drawing.Size(162, 21);
+            this.materialOfProductTextBox.TabIndex = 8;
+            this.materialOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.materialOfProductTextBox_KeyPress);
+            // 
+            // materialOfProductLabel
+            // 
+            this.materialOfProductLabel.AutoSize = true;
+            this.materialOfProductLabel.Location = new System.Drawing.Point(27, 43);
+            this.materialOfProductLabel.Name = "materialOfProductLabel";
+            this.materialOfProductLabel.Size = new System.Drawing.Size(29, 12);
+            this.materialOfProductLabel.TabIndex = 9;
+            this.materialOfProductLabel.Text = "材料";
+            // 
             // RepoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(955, 478);
+            this.ClientSize = new System.Drawing.Size(955, 549);
             this.Controls.Add(this.splitContainer1);
             this.Name = "RepoForm";
             this.Text = "仓库";
@@ -320,5 +341,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
+        private System.Windows.Forms.Label materialOfProductLabel;
+        private System.Windows.Forms.TextBox materialOfProductTextBox;
     }
 }
