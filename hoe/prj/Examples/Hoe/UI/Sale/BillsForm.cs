@@ -335,9 +335,20 @@ namespace Hoe.UI.Sale
                     this.bill_productsGridView.CurrentCell = this.bill_productsGridView.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
                     this.bill_productsGridView.Rows[hit.RowIndex].Selected = true;
                     this.bill_productsGridView.Focus();
+
+                    // trigger selection event manually
+                    this.gridView_currentBillProductChanged(null, null);
                 }
 
-                //this.billProductMenu.Show(this.billsGridView, e.X, e.Y);
+                this.billProductMenu.Show(this.bill_productsGridView, e.X, e.Y);
+            }
+        }
+
+        private void cancelBillProductMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("你确定你确定你确定????", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            {
+                (Controller as BillsController).CancelProductToRepo(CurrentBillProduct);
             }
         }
 
