@@ -151,11 +151,6 @@ namespace Hoe.UI.Sale
             (Controller as BillsController).ShowRepo();
         }
 
-        private void cancelProductButton_Click(object sender, EventArgs e)
-        {
-            (Controller as BillsController).CancelProductToRepo(CurrentBillProduct);
-        }
-
         private void createBillButton_Click(object sender, EventArgs e)
         {
             (Controller as BillsController).ShowBillView();
@@ -348,8 +343,31 @@ namespace Hoe.UI.Sale
         {
             if (MessageBox.Show("你确定你确定你确定????", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
-                (Controller as BillsController).CancelProductToRepo(CurrentBillProduct);
+                if(!(Controller as BillsController).CheckIfExistInRepo(CurrentBillProduct))
+                {
+                    DialogResult dr = MessageBox.Show(@"发现不一致状态，你要撤销的货并不存在于仓库里，有可能你曾经删除了它，撤销之后你要添加到仓库吗：
+  Yes. 撤销之后将这个货物将添加到仓库，货存=当前数量，需求=0
+  No. 撤销之后直接丢弃这个货物", "警告", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button3);
+                    if (dr == DialogResult.Yes)
+                    {
+                        (Controller as BillsController).CancelProductToRepo(CurrentBillProduct, false);
+                    }
+                    else if(dr == DialogResult.No)
+                    {
+                        (Controller as BillsController).CancelProductToRepo(CurrentBillProduct, true);
+                    }
+                }
+                else
+                {
+                    (Controller as BillsController).CancelProductToRepo(CurrentBillProduct,true);
+                }
+                
             }
+        }
+
+        private void returnAllBillProductMenuItem_Click(object sender, EventArgs e)
+        {
+            (Controller as BillsController).ReturnProductToRepo(CurrentBillProduct, CurrentBillProduct.Quantity);
         }
 
     }

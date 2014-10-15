@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.materialOfProductLabel = new System.Windows.Forms.Label();
+            this.materialOfProductTextBox = new System.Windows.Forms.TextBox();
             this.addToBillButton = new System.Windows.Forms.Button();
             this.countOfProductLabel = new System.Windows.Forms.Label();
             this.showBillsButton = new System.Windows.Forms.Button();
@@ -50,8 +52,6 @@
             this.UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.materialOfProductTextBox = new System.Windows.Forms.TextBox();
-            this.materialOfProductLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +89,23 @@
             this.splitContainer1.Size = new System.Drawing.Size(955, 549);
             this.splitContainer1.SplitterDistance = 75;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // materialOfProductLabel
+            // 
+            this.materialOfProductLabel.AutoSize = true;
+            this.materialOfProductLabel.Location = new System.Drawing.Point(27, 43);
+            this.materialOfProductLabel.Name = "materialOfProductLabel";
+            this.materialOfProductLabel.Size = new System.Drawing.Size(29, 12);
+            this.materialOfProductLabel.TabIndex = 9;
+            this.materialOfProductLabel.Text = "材料";
+            // 
+            // materialOfProductTextBox
+            // 
+            this.materialOfProductTextBox.Location = new System.Drawing.Point(75, 39);
+            this.materialOfProductTextBox.Name = "materialOfProductTextBox";
+            this.materialOfProductTextBox.Size = new System.Drawing.Size(162, 21);
+            this.materialOfProductTextBox.TabIndex = 8;
+            this.materialOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.materialOfProductTextBox_KeyPress);
             // 
             // addToBillButton
             // 
@@ -279,23 +296,6 @@
             this.deleteProductMenuItem.Text = "删除";
             this.deleteProductMenuItem.Click += new System.EventHandler(this.deleteProductMenuItem_Click);
             // 
-            // materialOfProductTextBox
-            // 
-            this.materialOfProductTextBox.Location = new System.Drawing.Point(75, 39);
-            this.materialOfProductTextBox.Name = "materialOfProductTextBox";
-            this.materialOfProductTextBox.Size = new System.Drawing.Size(162, 21);
-            this.materialOfProductTextBox.TabIndex = 8;
-            this.materialOfProductTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.materialOfProductTextBox_KeyPress);
-            // 
-            // materialOfProductLabel
-            // 
-            this.materialOfProductLabel.AutoSize = true;
-            this.materialOfProductLabel.Location = new System.Drawing.Point(27, 43);
-            this.materialOfProductLabel.Name = "materialOfProductLabel";
-            this.materialOfProductLabel.Size = new System.Drawing.Size(29, 12);
-            this.materialOfProductLabel.TabIndex = 9;
-            this.materialOfProductLabel.Text = "材料";
-            // 
             // RepoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -303,6 +303,7 @@
             this.ClientSize = new System.Drawing.Size(955, 549);
             this.Controls.Add(this.splitContainer1);
             this.Name = "RepoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "仓库";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

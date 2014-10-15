@@ -45,7 +45,10 @@ namespace Hoe.Basic.Model
 
         public object Clone()
         {
-            return this.MemberwiseClone(); //浅复制
+            Product clone = this.MemberwiseClone() as Product;
+            clone.Id = new ObjectId();
+            
+            return clone; //浅复制
         }
 
         public override bool Equals(Object obj)

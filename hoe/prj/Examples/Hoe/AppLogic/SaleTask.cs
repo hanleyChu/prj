@@ -170,24 +170,40 @@ namespace Hoe.Basic.AppLogic
             TriggerCurrentBillChanged(this, EventArgs.Empty);
         }
 
-        public void CancelProductToRepo(Product product)
+        public void CancelProductToRepo(Product product, Boolean discardOnMissing)
         {
             // check if the product exist, if exist, then increase by extra products quantities
-            List<Product> specificProduct = (from p in Products
-                                             where p.Equals(product)
-                                             select p).ToList();
-            if (specificProduct.Count > 0)
+            List<Product> specificProduct = (from p in ProductDao.GetAll()
+                                            where p.Equals(product)
+                                            select p).ToList();
+            if(specificProduct.Count>0) // exist
             {
+                // change the quantity and demand
                 specificProduct[0].Quantity += product.Quantity;
                 specificProduct[0].Demand -= (product.Demand - product.Quantity);
-                product = specificProduct[0];
-                TriggerRepoProductsChanged(this, new ProductChangeEventArg(product, ModelChangeEventArg.UPDATE));
+
+
+                // check if exist in current repo products list
+                List<Product> currentSpecificProduct = (from p in Products
+                                                        where p.Equals(product)
+                                                        select p).ToList();
+                // update current list
+                if (currentSpecificProduct.Count > 0)
+                {
+                    currentSpecificProduct[0].Quantity = specificProduct[0].Quantity;
+                    currentSpecificProduct[0].Demand = specificProduct[0].Demand;
+                }
+
+                TriggerRepoProductsChanged(this, new ProductChangeEventArg(specificProduct[0], ModelChangeEventArg.UPDATE));
             }
-            else
+
+            // not exist, unconsistency state
+            if(!discardOnMissing)
             {
-                product.Demand -= product.Quantity;
-                Products.Add(product);
-                TriggerRepoProductsChanged(this, new ProductChangeEventArg(product, ModelChangeEventArg.INSERT));
+                Product missedProduct = product.Clone() as Product;
+                missedProduct.Demand = 0;
+                Products.Add(missedProduct);
+                TriggerRepoProductsChanged(this, new ProductChangeEventArg(missedProduct, ModelChangeEventArg.INSERT));
             }
 
 			// check if the bill is ready for assemblage
@@ -197,7 +213,50 @@ namespace Hoe.Basic.AppLogic
 				CurrentBill.Completed = false;
 			}
 			BillDao.Update(CurrentBill);
-            ProductDao.Update(product);
+
+        }
+
+        /** if the returned product does not exist in repo, then create it **/
+        public void ReturnProductToRepo(Product pro, int count)
+        {
+            // check if the product exist, if exist, then increase by extra products quantities
+            List<Product> specificProduct = (from p in ProductDao.GetAll()
+                                             where p.Equals(pro)
+                                             select p).ToList();
+
+            if (specificProduct.Count > 0)
+            {
+                specificProduct[0].Quantity += count;
+                specificProduct[0].Demand += count;
+
+                // check if exist in current repo products list
+                List<Product> currentSpecificProduct = (from p in Products
+                                                        where p.Equals(pro)
+                                                        select p).ToList();
+                // update current list
+                if (currentSpecificProduct.Count > 0)
+                {
+                    currentSpecificProduct[0].Quantity = specificProduct[0].Quantity;
+                    currentSpecificProduct[0].Demand = specificProduct[0].Demand;
+                }
+                TriggerRepoProductsChanged(this, new ProductChangeEventArg(specificProduct[0], ModelChangeEventArg.UPDATE));
+            }
+            else
+            {
+                Product missedProduct = pro.Clone() as Product;
+                missedProduct.Demand = count;
+                missedProduct.Quantity = count;
+                Products.Add(missedProduct);
+                TriggerRepoProductsChanged(this, new ProductChangeEventArg(missedProduct, ModelChangeEventArg.INSERT));
+            }
+
+            // check if the bill is ready for assemblage
+            if (CurrentBill.Products.Count == 0 || CurrentBill.Products.Count<Product>(b => b.Quantity < b.Demand) > 0)
+            {
+                CurrentBill.AssemblageOK = false;
+                CurrentBill.Completed = false;
+            }
+            BillDao.Update(CurrentBill);
 
         }
 

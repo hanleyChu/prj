@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using MVCSharp.Core;
 using MVCSharp.Core.Tasks;
 using MVCSharp.Core.Views;
@@ -183,6 +184,14 @@ namespace Hoe.Basic.Controller
             // since in the form view layer, we called bindingsource.remove method, it will also delete the object of model layer
             // here we just call the event trigger method to notify the observors to take actions
             (Task as SaleTask).TriggerRepoProductsChanged(null, new ProductChangeEventArg(product, ModelChangeEventArg.REMOVE));
+        }
+
+        public bool CheckIfExist(Product pro)
+        {
+            List<Product> specificProduct = (from p in ProductDao.GetAll() where p.Equals(pro) select p).ToList();
+
+            return specificProduct.Count >= 1 ? true : false;
+
         }
 
         public void UpdateProduct(Product product)

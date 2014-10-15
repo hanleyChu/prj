@@ -38,10 +38,7 @@ namespace Hoe.Basic.DAO
                 products.Add(product);
             }
 
-            if (products.Count > 0)
-                return products;
-            else
-                return null;
+            return products;
 
         }
 

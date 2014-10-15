@@ -120,8 +120,16 @@ namespace Hoe.UI.Repo
             if (MessageBox.Show("你确定要吃糠删掉这个货?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 Product product = CurrentProduct;
-                (this.productsDataGridView.DataSource as BindingSource).Remove(CurrentProduct);
-                (Controller as RepoController).DeleteProduct(product);
+                if (product.Demand == 0) 
+                {
+                    (this.productsDataGridView.DataSource as BindingSource).Remove(CurrentProduct);
+                    (Controller as RepoController).DeleteProduct(product);
+                }
+                else
+                {
+                    MessageBox.Show("需求不为0，有订单还缺这个货，无法删除");
+                }
+                
             }
 
         }

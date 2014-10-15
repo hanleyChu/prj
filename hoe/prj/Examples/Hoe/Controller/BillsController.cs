@@ -85,7 +85,7 @@ namespace Hoe.Basic.Controller
             (View as IBillsView).ShowBillInfo((Task as SaleTask).CurrentBill);
         }
 
-        public void CancelProductToRepo(Product product)
+        public void CancelProductToRepo(Product product, Boolean discardOnMissing)
         {
             SaleTask task = (Task as SaleTask);
 
@@ -97,11 +97,28 @@ namespace Hoe.Basic.Controller
 
             Product removedProduct = task.CurrentBillProduct;
             (View as IBillsView).RemoveFromProductsList(removedProduct);
-            task.CancelProductToRepo(removedProduct);
+            task.CancelProductToRepo(removedProduct, discardOnMissing);
 
 			(View as IBillsView).RefreshCurrentProduct();
 			
             
+        }
+
+        public void ReturnProductToRepo(Product product, int count)
+        {
+            SaleTask task = (Task as SaleTask);
+
+            if (task.CurrentBillProduct == null)
+            {
+                MessageBox.Show("请选择货物");
+                return;
+            }
+
+            Product returnedProduct = task.CurrentBillProduct;
+            returnedProduct.Quantity = 0;
+            task.ReturnProductToRepo(returnedProduct, count);
+
+            (View as IBillsView).RefreshCurrentProduct();
         }
 
         public void ShowRepo()
@@ -250,6 +267,11 @@ namespace Hoe.Basic.Controller
             }
 
             return new List<Bill>();
+        }
+
+        public bool CheckIfExistInRepo(Product pro)
+        {
+            return (Task.Navigator.GetController(SaleTask.RepoView) as RepoController).CheckIfExist(pro);
         }
 
     }
