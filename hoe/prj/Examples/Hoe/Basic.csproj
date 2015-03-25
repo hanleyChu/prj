@@ -56,6 +56,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\lib\mongodb\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -71,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AppLogic\Event\BillChangeEventArg.cs" />
     <Compile Include="AppLogic\Event\ModelChangeEventArg.cs" />
+    <Compile Include="AppLogic\Event\SemiProductChangeEventArg.cs" />
     <Compile Include="AppLogic\SaleTask.cs" />
     <Compile Include="AppLogic\ProductTask.cs" />
     <Compile Include="AppLogic\BillTask.cs" />
@@ -84,8 +86,10 @@
     <Compile Include="Controller\BackupRestoreController.cs" />
     <Compile Include="DAO\BillDao.cs" />
     <Compile Include="DAO\ProductDao.cs" />
+    <Compile Include="DAO\SemiProductDao.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Model\Bill.cs" />
+    <Compile Include="Model\SemiProduct.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\IBillsView.cs" />

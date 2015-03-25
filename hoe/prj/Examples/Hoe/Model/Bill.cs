@@ -40,7 +40,7 @@ namespace Hoe.Basic.Model
         private DateTime deliveryDate;
         public DateTime DeliveryDate 
         { 
-            set
+            set      
             {
                 deliveryDate = value;
             } 
@@ -48,6 +48,21 @@ namespace Hoe.Basic.Model
             {
                 return deliveryDate.Date;
             } 
+        }
+        private DateTime? shipmentDate;
+        public DateTime? ShipmentDate
+        {
+            set
+            {
+                shipmentDate = value;
+            }
+            get
+            {
+                if (shipmentDate != null)
+                    return ((DateTime)shipmentDate).Date;
+                else
+                    return null;
+            }
         }
         public String Number { set; get; }
         public String Remark { set; get; }

@@ -1,6 +1,6 @@
 ﻿namespace Hoe.UI.Repo
 {
-    partial class ProductForm
+    partial class SemiProductForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.warehousingDatePicker = new System.Windows.Forms.DateTimePicker();
             this.nameLabel = new System.Windows.Forms.Label();
             this.normLabel = new System.Windows.Forms.Label();
             this.materialLabel = new System.Windows.Forms.Label();
@@ -45,6 +47,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.warehousingDatePicker);
             this.groupBox1.Controls.Add(this.nameLabel);
             this.groupBox1.Controls.Add(this.normLabel);
             this.groupBox1.Controls.Add(this.materialLabel);
@@ -56,17 +60,33 @@
             this.groupBox1.Controls.Add(this.materialTextBox);
             this.groupBox1.Controls.Add(this.nameTextBox);
             this.groupBox1.Controls.Add(this.NewProductButton);
-            this.groupBox1.Location = new System.Drawing.Point(12, 4);
+            this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(277, 352);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "新货入库";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "入库日期";
+            // 
+            // warehousingDatePicker
+            // 
+            this.warehousingDatePicker.Location = new System.Drawing.Point(75, 31);
+            this.warehousingDatePicker.Name = "warehousingDatePicker";
+            this.warehousingDatePicker.Size = new System.Drawing.Size(169, 21);
+            this.warehousingDatePicker.TabIndex = 22;
+            // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(16, 22);
+            this.nameLabel.Location = new System.Drawing.Point(16, 68);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(29, 12);
             this.nameLabel.TabIndex = 21;
@@ -75,7 +95,7 @@
             // normLabel
             // 
             this.normLabel.AutoSize = true;
-            this.normLabel.Location = new System.Drawing.Point(16, 112);
+            this.normLabel.Location = new System.Drawing.Point(16, 131);
             this.normLabel.Name = "normLabel";
             this.normLabel.Size = new System.Drawing.Size(29, 12);
             this.normLabel.TabIndex = 20;
@@ -84,7 +104,7 @@
             // materialLabel
             // 
             this.materialLabel.AutoSize = true;
-            this.materialLabel.Location = new System.Drawing.Point(16, 68);
+            this.materialLabel.Location = new System.Drawing.Point(16, 98);
             this.materialLabel.Name = "materialLabel";
             this.materialLabel.Size = new System.Drawing.Size(29, 12);
             this.materialLabel.TabIndex = 19;
@@ -93,15 +113,15 @@
             // numberLabel
             // 
             this.numberLabel.AutoSize = true;
-            this.numberLabel.Location = new System.Drawing.Point(16, 158);
+            this.numberLabel.Location = new System.Drawing.Point(16, 164);
             this.numberLabel.Name = "numberLabel";
             this.numberLabel.Size = new System.Drawing.Size(29, 12);
             this.numberLabel.TabIndex = 18;
-            this.numberLabel.Text = "数量";
+            this.numberLabel.Text = "库存";
             // 
             // numberTextBox
             // 
-            this.numberTextBox.Location = new System.Drawing.Point(51, 158);
+            this.numberTextBox.Location = new System.Drawing.Point(51, 161);
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.Size = new System.Drawing.Size(215, 21);
             this.numberTextBox.TabIndex = 4;
@@ -109,7 +129,7 @@
             // remarkLabel
             // 
             this.remarkLabel.AutoSize = true;
-            this.remarkLabel.Location = new System.Drawing.Point(16, 221);
+            this.remarkLabel.Location = new System.Drawing.Point(16, 201);
             this.remarkLabel.Name = "remarkLabel";
             this.remarkLabel.Size = new System.Drawing.Size(29, 12);
             this.remarkLabel.TabIndex = 16;
@@ -117,7 +137,7 @@
             // 
             // remarkTextBox
             // 
-            this.remarkTextBox.Location = new System.Drawing.Point(51, 218);
+            this.remarkTextBox.Location = new System.Drawing.Point(51, 198);
             this.remarkTextBox.Multiline = true;
             this.remarkTextBox.Name = "remarkTextBox";
             this.remarkTextBox.Size = new System.Drawing.Size(215, 79);
@@ -125,45 +145,45 @@
             // 
             // normTextBox
             // 
-            this.normTextBox.Location = new System.Drawing.Point(51, 112);
+            this.normTextBox.Location = new System.Drawing.Point(51, 127);
             this.normTextBox.Name = "normTextBox";
             this.normTextBox.Size = new System.Drawing.Size(215, 21);
             this.normTextBox.TabIndex = 3;
             // 
             // materialTextBox
             // 
-            this.materialTextBox.Location = new System.Drawing.Point(51, 68);
+            this.materialTextBox.Location = new System.Drawing.Point(51, 94);
             this.materialTextBox.Name = "materialTextBox";
             this.materialTextBox.Size = new System.Drawing.Size(215, 21);
             this.materialTextBox.TabIndex = 2;
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(51, 22);
+            this.nameTextBox.Location = new System.Drawing.Point(51, 62);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(215, 21);
             this.nameTextBox.TabIndex = 1;
             // 
             // NewProductButton
             // 
-            this.NewProductButton.Location = new System.Drawing.Point(93, 323);
+            this.NewProductButton.Location = new System.Drawing.Point(93, 303);
             this.NewProductButton.Name = "NewProductButton";
             this.NewProductButton.Size = new System.Drawing.Size(75, 23);
             this.NewProductButton.TabIndex = 6;
             this.NewProductButton.Text = "添加";
             this.NewProductButton.UseVisualStyleBackColor = true;
-            this.NewProductButton.Click += new System.EventHandler(this.NewProductButton_Click);
+            this.NewProductButton.Click += new System.EventHandler(this.NewSemiProductButton_Click);
             // 
-            // ProductForm
+            // SemiProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 368);
+            this.ClientSize = new System.Drawing.Size(301, 348);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ProductForm";
+            this.Name = "SemiProductForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "货物";
             this.groupBox1.ResumeLayout(false);
@@ -186,6 +206,8 @@
         private System.Windows.Forms.TextBox materialTextBox;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Button NewProductButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker warehousingDatePicker;
 
     }
 }

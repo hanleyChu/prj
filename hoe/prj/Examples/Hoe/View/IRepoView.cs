@@ -20,5 +20,13 @@ namespace Hoe.Basic.View
         void ShowProductsList(List<Product> products);
 
         void SelectProductInList(Product product);
+
+        void ShowSemiProductsList(List<SemiProduct> semiproducts);
+
+        void SelectSemiProductInList(SemiProduct semiproduct);
+
+        void RefreshSemiProductStatus();
+
+        dynamic ShowAndExtractProductDemandUnitprice();
     }
 }

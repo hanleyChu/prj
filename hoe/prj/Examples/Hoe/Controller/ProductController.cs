@@ -33,22 +33,22 @@ namespace Hoe.Basic.Controller
             }
         }
 
-        public void NewProduct(Product product)
+        public void NewSemiProduct(SemiProduct semiproduct)
         {
 
-            List<Product> specificProduct = (from p in (Task as ProductTask).SalesTask.Products
-                                             where p.Equals(product)
+            List<SemiProduct> specificSemiProduct = (from p in (Task as ProductTask).SalesTask.SemiProducts
+                                             where p.Equals(semiproduct)
                                              select p).ToList();
 
-            if (specificProduct.Count > 0)
+            if (specificSemiProduct.Count > 0)
             {
-                MessageBox.Show("已经存在这个货物啦");
+                MessageBox.Show("已经存在这个日期的这批货物啦\n\r如果你想增加库存数量，则直接双击修改即可");
                 return;
             }
 
             SaleTask task = (Task as ProductTask).SalesTask;
-            task.Products.Add(product);
-            task.TriggerRepoProductsChanged(this, new ProductChangeEventArg(product, ModelChangeEventArg.INSERT));
+            task.SemiProducts.Add(semiproduct);
+            task.TriggerRepoSemiProductsChanged(this, new SemiProductChangeEventArg(semiproduct, ModelChangeEventArg.INSERT));
         }
         
     }

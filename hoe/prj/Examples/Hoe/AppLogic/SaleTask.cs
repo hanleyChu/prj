@@ -8,6 +8,7 @@ using Hoe.Basic.Controller;
 using Hoe.Basic.Model;
 using Hoe.Basic.DAO;
 using Hoe.Basic.AppLogic.Event;
+using MVCSharp.Examples.Basics.DAO;
 
 
 namespace Hoe.Basic.AppLogic
@@ -42,13 +43,44 @@ namespace Hoe.Basic.AppLogic
                 TriggerCurrentRepoProductChanged(this, new ProductChangeEventArg(value, ModelChangeEventArg.SELECT));
             }
         }
+        /*
+         * SemiProduct 
+         */
+        private SemiProduct currentRepoSemiProduct = null;
 
+        public event EventHandler CurrentRepoSemiProductChanged;
+
+        public void TriggerCurrentRepoSemiProductChanged(Object sender, EventArgs arg)
+        {
+            if (CurrentRepoSemiProductChanged != null)
+                CurrentRepoSemiProductChanged(sender, arg);
+        }
+
+        public SemiProduct CurrentRepoSemiProduct
+        {
+            get { return currentRepoSemiProduct; }
+            set
+            {
+                currentRepoSemiProduct = value;
+                TriggerCurrentRepoSemiProductChanged(this, new SemiProductChangeEventArg(value, ModelChangeEventArg.SELECT));
+            }
+        }
+
+        /*
+         * Product SemiProduct list
+         */
         public event EventHandler RepoProductsChanged;
+        public event EventHandler RepoSemiProductsChanged;
 
         public void TriggerRepoProductsChanged(Object sender, EventArgs arg)
         {
             if (RepoProductsChanged != null)
                 RepoProductsChanged(sender, arg);
+        }
+        public void TriggerRepoSemiProductsChanged(Object sender, EventArgs arg)
+        {
+            if (RepoSemiProductsChanged != null)
+                RepoSemiProductsChanged(sender, arg);
         }
 
 
@@ -74,6 +106,28 @@ namespace Hoe.Basic.AppLogic
             }
         }
 
+        private List<SemiProduct> semiproducts = null;
+
+        public List<SemiProduct> SemiProducts
+        {
+            set
+            {
+                semiproducts = value;
+                TriggerRepoSemiProductsChanged(this, EventArgs.Empty);
+            }
+            get
+            {
+                if (semiproducts == null)
+                {
+                    semiproducts = SemiProductDao.GetAll();
+
+                    if (semiproducts == null)
+                        semiproducts = new List<SemiProduct>();
+                }
+                return semiproducts;
+            }
+        }
+
         /*
          * Bill 
          */
@@ -87,17 +141,20 @@ namespace Hoe.Basic.AppLogic
                 CurrentBillChanged(sender, arg);
         }
 
-        public void PreAddCurrentProductToCurrentBill(int precount,int count)
+        public void PreAddCurrentProductToCurrentBill(int precount,int count,float unitprice)
         {
+            // get currentRepoProduct in the products list
+            Product currentRepoProduct = Products.Single(x => x.Equals(CurrentRepoProduct));
             // get the clone of current product
-            Product clone = CurrentRepoProduct.Clone() as Product;
+            Product clone = currentRepoProduct.Clone() as Product;
             clone.Demand = precount;
             clone.Quantity = count;
-            CurrentRepoProduct.Demand += precount - count;
-            CurrentRepoProduct.Quantity -= count;
+            clone.UnitPrice = unitprice;
+            currentRepoProduct.Demand += precount - count;
+            currentRepoProduct.Quantity -= count;
 
             // trigger the repo products event
-            TriggerRepoProductsChanged(this, new ProductChangeEventArg(CurrentRepoProduct, ModelChangeEventArg.UPDATE));
+            TriggerRepoProductsChanged(this, new ProductChangeEventArg(currentRepoProduct, ModelChangeEventArg.UPDATE));
 
             // set it to the current bill
             // check if products list exist

@@ -18,14 +18,14 @@ using Hoe.Basic.Controller;
 namespace Hoe.UI.Repo
 {
     [WinformsView(typeof(ProductTask), ProductTask.ProductView, ShowModal = true)]
-    public partial class ProductForm : WinFormView
+    public partial class SemiProductForm : WinFormView
     {
-        public ProductForm()
+        public SemiProductForm()
         {
             InitializeComponent();
         }
 
-        private void NewProductButton_Click(object sender, EventArgs e)
+        private void NewSemiProductButton_Click(object sender, EventArgs e)
         {
             String name = this.nameTextBox.Text.Trim();
             if (String.IsNullOrEmpty(name))
@@ -59,16 +59,18 @@ namespace Hoe.UI.Repo
 
             String remark = this.remarkTextBox.Text.Trim();
 
-            Product p = new Product() 
+            SemiProduct p = new SemiProduct() 
             { 
                 Name = name,
                 Material = material,
                 Norm = norm,
                 Quantity = quantity,
                 Remark = remark,
+                InitialQuantity = quantity,
+                WarehousingDate = this.warehousingDatePicker.Value
             };
 
-            (Controller as ProductController).NewProduct(p);
+            (Controller as ProductController).NewSemiProduct(p);
 
         }
     }

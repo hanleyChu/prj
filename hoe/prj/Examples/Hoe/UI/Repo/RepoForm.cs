@@ -15,6 +15,7 @@ using Hoe.Basic.View;
 using Hoe.Basic.AppLogic;
 using Hoe.Basic.Model;
 using System.Collections;
+using Hoe.App.UI.Dialog;
 
 
 namespace Hoe.UI.Repo
@@ -33,6 +34,15 @@ namespace Hoe.UI.Repo
             {
                 return productsDataGridView.CurrentRow == null ? null :
                        productsDataGridView.CurrentRow.DataBoundItem as Product;
+            }
+        }
+
+        public SemiProduct CurrentSemiProduct
+        {
+            get
+            {
+                return semiproductsDataGridView.CurrentRow == null ? null :
+                       semiproductsDataGridView.CurrentRow.DataBoundItem as SemiProduct;
             }
         }
 
@@ -57,20 +67,26 @@ namespace Hoe.UI.Repo
             (Controller as RepoController).SetCurrentRepoProduct(CurrentProduct);
         }
 
+        private void gridview_currentSemiProductChanged(object sender, EventArgs e)
+        {
+            (Controller as RepoController).SetCurrentRepoSemiProduct(CurrentSemiProduct);
+        }
+
         private void addToBillButton_Click(object sender, EventArgs e)
         {
             (Controller as RepoController).AddCurrentProductToBill(SalesCount);
-        }
-
-        private void showBillsButton_Click(object sender, EventArgs e)
-        {
-            (Controller as RepoController).ShowBills();
         }
 
         public void ShowProductsList(List<Product> products)
         {   
             this.productsDataGridView.DataSource = new BindingSource(products, null);
             this.productsDataGridView.Refresh();
+        }
+
+        public void ShowSemiProductsList(List<SemiProduct> semiproducts)
+        {
+            this.semiproductsDataGridView.DataSource = new BindingSource(semiproducts, null);
+            this.semiproductsDataGridView.Refresh();
         }
 
         public void SelectProductInList(Product product)
@@ -84,14 +100,20 @@ namespace Hoe.UI.Repo
             }
         }
 
-        private void addProductButton_Click(object sender, EventArgs e)
+        public void SelectSemiProductInList(SemiProduct semiproduct)
         {
-            (Controller as RepoController).ShowProductView();
+            int index = (this.semiproductsDataGridView.DataSource as BindingSource).IndexOf(semiproduct);
+            int count = this.semiproductsDataGridView.Rows.Count;
+            if (index < count && index >= 0)
+            {
+                this.semiproductsDataGridView.Rows[index].Selected = true;
+                this.semiproductsDataGridView.Refresh();
+            }
         }
 
-        private void showAllButton_Click(object sender, EventArgs e)
+        private void addSemiProductButton_Click(object sender, EventArgs e)
         {
-            (Controller as RepoController).FilterProducts("","");
+            (Controller as RepoController).ShowSemiProductView();
         }
 
         private void productsDataGridView_MouseClick(object sender, MouseEventArgs e)
@@ -115,21 +137,81 @@ namespace Hoe.UI.Repo
             }
         }
 
-        private void deleteProductMenuItem_Click(object sender, EventArgs e)
+        private void semiproductsDataGridView_MouseClick(object sender, MouseEventArgs e)
         {
-            if (MessageBox.Show("你确定要吃糠删掉这个货?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            if (e.Button == MouseButtons.Right)
+            {
+                // make right click row selected
+                var hit = this.semiproductsDataGridView.HitTest(e.X, e.Y);
+                int count = this.semiproductsDataGridView.Rows.Count;
+                if (hit.RowIndex < count && hit.RowIndex >= 0)
+                {
+                    this.semiproductsDataGridView.CurrentCell = this.semiproductsDataGridView.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
+                    this.semiproductsDataGridView.Rows[hit.RowIndex].Selected = true;
+                    this.semiproductsDataGridView.Focus();
+
+                    // trigger the click event as left click to set the current product
+                    this.gridview_currentSemiProductChanged(null, null);
+                }
+
+                this.semiproductMenu.Show(this.semiproductsDataGridView, e.X, e.Y);
+            }
+        }
+
+        private void backToSemiProductMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("你确定要撤回这个货到半成品库?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 Product product = CurrentProduct;
-                if (product.Demand == 0) 
+                int maxCount = product.Quantity;
+                int demand = product.Demand;
+
+                List<SemiProduct> semiproducts = (Controller as RepoController).GetRelatedSemiProducts(product);
+                if (semiproducts.Count == 0)
                 {
+                    MessageBox.Show("不存在这个货物的半成品库或者该货物的所有半成品库存都是满的，撤回失败，如果需要撤回，请先在半成品库中新建批货");
+                    return;
+                }
+
+                List<DateTime> warehousingDates = semiproducts.Select(x => x.WarehousingDate).ToList();
+                ProductWithdrawDialog pwd = new ProductWithdrawDialog(maxCount,warehousingDates);
+                pwd.Show();
+                dynamic result = pwd.GetDialogResult();
+
+                SemiProduct semiproduct = semiproducts.Single(x => x.WarehousingDate.Date == result.WarehousingDate.Date);
+                if (semiproduct.InitialQuantity - semiproduct.Quantity < result.Count)
+                {
+                    MessageBox.Show("撤回的数量太多，超过了该半成品批次的初始库存");
+                    return;
+                }
+
+                product.Quantity -= result.Count;
+                if (product.Demand == 0 && product.Quantity==0) 
+                {
+                    // update product
                     (this.productsDataGridView.DataSource as BindingSource).Remove(CurrentProduct);
                     (Controller as RepoController).DeleteProduct(product);
                 }
                 else
                 {
-                    MessageBox.Show("需求不为0，有订单还缺这个货，无法删除");
+                    (Controller as RepoController).UpdateProduct(product);
                 }
+
+                // update semiproduct
+                (Controller as RepoController).WithdrawProductsToSemiProducts(product, result.WarehousingDate, result.Count); 
                 
+            }
+
+        }
+
+        private void deleteSemiProductMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("你确定要删掉这个批半成品货?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            {
+                SemiProduct semiproduct = CurrentSemiProduct;
+
+                (this.semiproductsDataGridView.DataSource as BindingSource).Remove(CurrentSemiProduct);
+                (Controller as RepoController).DeleteSemiProduct(semiproduct);
             }
 
         }
@@ -139,7 +221,7 @@ namespace Hoe.UI.Repo
             string columnName = this.productsDataGridView.Columns[e.ColumnIndex].DataPropertyName;
 
             // Abort validation if cell is not in the Quantity column. 
-            if (columnName.Equals("Quantity"))
+            if (columnName.Equals("Quantity") || columnName.Equals("Count"))
             {
                 String newValue = e.FormattedValue.ToString();
                 int result;
@@ -152,6 +234,45 @@ namespace Hoe.UI.Repo
             }
         }
 
+        private void semiproductsDataGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            string columnName = this.semiproductsDataGridView.Columns[e.ColumnIndex].DataPropertyName;
+            
+            // Abort validation if cell is not in the Quantity column. 
+            if (columnName.Equals("Quantity") || columnName.Equals("InitialQuantity"))
+            {
+                int oldValue = (int)this.semiproductsDataGridView[e.ColumnIndex, e.RowIndex].Value;
+                String newValueString = e.FormattedValue.ToString();
+                
+                int newValue;
+                if (!int.TryParse(newValueString as String, out newValue) || newValue < 0)
+                {
+                    MessageBox.Show("请输入合法的数字");
+                    e.Cancel = true;
+                    return;
+                }
+
+                int deltaValue = (newValue - oldValue);
+                if (columnName.Equals("Quantity"))
+                {
+                    CurrentSemiProduct.InitialQuantity += deltaValue;
+                }
+                else
+                {
+                    if(deltaValue<0 && Math.Abs(deltaValue)>CurrentSemiProduct.Quantity)
+                    {
+                        MessageBox.Show("初始库存数量不能使得现有库存数量小于0");
+                        e.Cancel = true;
+                        return; 
+                    }
+                    else
+                    {
+                        CurrentSemiProduct.Quantity += deltaValue;
+                    }
+                }
+            }
+        }
+
         private void productsDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //only end edit mode, we can get the real updated value
@@ -160,7 +281,15 @@ namespace Hoe.UI.Repo
             (Controller as RepoController).UpdateProduct(CurrentProduct);
         }
 
-        private void nameOfProductTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void semiproductsDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //only end edit mode, we can get the real updated value
+            this.semiproductsDataGridView.EndEdit();
+
+            (Controller as RepoController).UpdateSemiProduct(CurrentSemiProduct);
+        }
+
+        private void nameOrNormOfProductTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
@@ -176,10 +305,91 @@ namespace Hoe.UI.Repo
             }
         }
 
+        private void productFindBtn_Click(object sender, EventArgs e)
+        {
+            queryProducts();
+        }
+
         private void queryProducts()
         {
             (Controller as RepoController).FilterProducts(this.nameOrNormOfProductTextBox.Text.Trim(), this.materialOfProductTextBox.Text.Trim());
         }
+
+        private void addToProductBtn_Click(object sender, EventArgs e)
+        {
+            int count;
+            if (!int.TryParse(this.countOfSemiProductTextbox.Text, out count) || count <= 0)
+            {
+                MessageBox.Show("分配数必须为正整数");
+                return;
+            }
+            (Controller as RepoController).AddCurrentSemiProductToProduct(CurrentSemiProduct,count);
+        }
+
+        private void findAllProductButton_Click(object sender, EventArgs e)
+        {
+            (Controller as RepoController).FilterProducts("", "");
+        }
+
+        public dynamic ShowAndExtractProductDemandUnitprice()
+        {
+            DemandAndUnitPriceDialog dupd = new DemandAndUnitPriceDialog();
+            dupd.Show();
+            return dupd.GetDialogResult() as dynamic;
+        }
+
+        private void productsDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            (Controller as RepoController).SetCurrentRepoProduct(CurrentProduct);
+        }
+
+        private void semiproductsDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            RefreshSemiProductStatus();
+            (Controller as RepoController).SetCurrentRepoSemiProduct(CurrentSemiProduct);
+        }
+
+        private void showBillsViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            (Controller as RepoController).ShowBills();
+        }
+
+        private void addSemiProductToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            (Controller as RepoController).ShowSemiProductView();
+        }
+
+        public void RefreshSemiProductStatus()
+        {
+            this.currentSemiProductStatusLabel.Text = (Controller as RepoController).GetSemiProductStatusString(
+                (this.semiproductsDataGridView.DataSource as BindingSource).Current as SemiProduct, this.fromSemiproductDatePicker.Value, this.toSemiproductDatePicker.Value);
+
+        }
+
+        private void fromSemiproductDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshSemiProductStatus();
+        }
+
+        private void toSemiproductDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshSemiProductStatus();
+        }
+
+        private void semiproductFindBtn_Click(object sender, EventArgs e)
+        {
+            querySemiProducts();
+        }
+
+        private void querySemiProducts()
+        {
+            (Controller as RepoController).FilterSemiProducts(this.nameOrNormOfSemiProductTextBox.Text.Trim(), this.materialOfSemiProductTextBox.Text.Trim());
+        }
+
+        private void findAllSemiProductBtn_Click(object sender, EventArgs e)
+        {
+            (Controller as RepoController).FilterSemiProducts("", "");
+        }    
 
     }
 }

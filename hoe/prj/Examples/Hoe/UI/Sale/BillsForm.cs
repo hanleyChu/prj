@@ -17,6 +17,7 @@ using Hoe.Basic.AppLogic;
 using Hoe.Basic.Model;
 using System.Threading;
 using Hoe.Reporter;
+using Hoe.App.UI.Dialog;
 
 namespace Hoe.UI.Sale
 {
@@ -36,8 +37,8 @@ namespace Hoe.UI.Sale
             this.statusComboBox.DataSource = new BindingSource(new Dictionary<string, bool?>
             {
               {"全部", null},
-              {"已完成", true},
-              {"未完成", false}
+              {"已出货完成", true},
+              {"未出货完成", false}
             }, null);
             this.statusComboBox.DisplayMember = "Key";
             this.statusComboBox.ValueMember = "Value";
@@ -49,13 +50,14 @@ namespace Hoe.UI.Sale
             billsGridView.DataSource = bs;
         }
 
+        
         public void ShowBillInfo(Bill bill)
         {
             if (bill != null)
             {
                 this.billRemarkTextBox.Text = bill.Remark;
                 this.depositTextBox.Text = bill.Deposit.ToString();
-
+                
                 BindingSource bs = new BindingSource(bill, "Products");
                 this.bill_productsGridView.DataSource = bs;
 
@@ -65,6 +67,7 @@ namespace Hoe.UI.Sale
             (Controller as BillsController).SetCurrentBillProduct(CurrentBillProduct);
 			RefreshCurrentProduct();
         }
+
 
         public void SelectBillInList(Bill bill)
         {
@@ -188,7 +191,7 @@ namespace Hoe.UI.Sale
 
         private void deleteBillMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("你确定要吃糠删掉这个订单?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            if (MessageBox.Show("你确定要删掉这个订单?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
             {
                 Bill currentBill = CurrentBill;
                 (this.billsGridView.DataSource as BindingSource).Remove(currentBill);
@@ -218,13 +221,23 @@ namespace Hoe.UI.Sale
                     return;
                 }
             }
+            
         }
 
+        //--------------------------------------------
         private void bill_productsGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            //解决SetCurrentCellAddressCore函数的可重入调用.交给billProductsGridViewTimer来处理
+            billProductsGridViewTimer.Enabled = true;   
+        }
+        private void billProductsGridView_timer_Tick(object sender, EventArgs e)
+        {
+            billProductsGridViewTimer.Enabled = false;
+
             (Controller as BillsController).UpdateBill(CurrentBill);
             CalculateAndShowTotalPrice();
         }
+        //--------------------------------------------
 
         private void billsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -242,6 +255,18 @@ namespace Hoe.UI.Sale
                     CurrentBill.Completed = false;
                     return;
                 }
+
+                if (CurrentBill.Completed == true)
+                {
+                    DatePickerDialog dpd = new DatePickerDialog();
+                    dpd.Show();
+                    CurrentBill.ShipmentDate = (DateTime)dpd.GetDialogResult();
+                }
+                else
+                {
+                    CurrentBill.ShipmentDate = null;
+                }
+                
             }
 
             (Controller as BillsController).UpdateBill(CurrentBill);
@@ -369,6 +394,8 @@ namespace Hoe.UI.Sale
         {
             (Controller as BillsController).ReturnProductToRepo(CurrentBillProduct, CurrentBillProduct.Quantity);
         }
+
+        
 
     }
 }

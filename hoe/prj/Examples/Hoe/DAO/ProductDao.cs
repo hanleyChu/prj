@@ -44,6 +44,7 @@ namespace Hoe.Basic.DAO
 
         public static void Insert(Product product)
         {
+            product.Id = new MongoDB.Bson.ObjectId();
             DatabaseHelper.ProductCollection.Insert<Product>(product);
         }
 

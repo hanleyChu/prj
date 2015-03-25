@@ -63,6 +63,14 @@ namespace Hoe.Basic.DB
             }
         }
 
+        public static MongoCollection SemiProductCollection
+        {
+            get
+            {
+                return Database.GetCollection<SemiProduct>("semiproducts");
+            }
+        }
+
         public static List<T> MongoCursor2List<T>(MongoCursor mc)
         {
             List<T> objs = new List<T>();
