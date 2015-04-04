@@ -37,6 +37,8 @@
             this.deliveryDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.remarkTextBox = new System.Windows.Forms.TextBox();
             this.remarkLabel = new System.Windows.Forms.Label();
+            this.ordinalTextbox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // newBillButton
@@ -52,7 +54,7 @@
             // numberTextBox
             // 
             this.numberTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numberTextBox.Location = new System.Drawing.Point(91, 31);
+            this.numberTextBox.Location = new System.Drawing.Point(92, 53);
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.Size = new System.Drawing.Size(190, 21);
             this.numberTextBox.TabIndex = 1;
@@ -68,7 +70,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 31);
+            this.label1.Location = new System.Drawing.Point(44, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 4;
@@ -105,7 +107,7 @@
             this.remarkTextBox.Location = new System.Drawing.Point(91, 181);
             this.remarkTextBox.Multiline = true;
             this.remarkTextBox.Name = "remarkTextBox";
-            this.remarkTextBox.Size = new System.Drawing.Size(322, 80);
+            this.remarkTextBox.Size = new System.Drawing.Size(311, 80);
             this.remarkTextBox.TabIndex = 8;
             // 
             // remarkLabel
@@ -117,11 +119,30 @@
             this.remarkLabel.TabIndex = 9;
             this.remarkLabel.Text = "备注";
             // 
+            // ordinalTextbox
+            // 
+            this.ordinalTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ordinalTextbox.Location = new System.Drawing.Point(91, 26);
+            this.ordinalTextbox.Name = "ordinalTextbox";
+            this.ordinalTextbox.Size = new System.Drawing.Size(190, 21);
+            this.ordinalTextbox.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(44, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "序号";
+            // 
             // BillForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 325);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.ordinalTextbox);
             this.Controls.Add(this.remarkLabel);
             this.Controls.Add(this.remarkTextBox);
             this.Controls.Add(this.deliveryDateTimePicker);
@@ -150,5 +171,7 @@
         private System.Windows.Forms.DateTimePicker deliveryDateTimePicker;
         private System.Windows.Forms.TextBox remarkTextBox;
         private System.Windows.Forms.Label remarkLabel;
+        private System.Windows.Forms.TextBox ordinalTextbox;
+        private System.Windows.Forms.Label label4;
     }
 }

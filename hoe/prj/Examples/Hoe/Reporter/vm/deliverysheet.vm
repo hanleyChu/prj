@@ -1,0 +1,97 @@
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<link rel=Stylesheet href=deliverysheet-style.css>
+<style>
+</style>
+</head>
+
+<body link=blue vlink=purple style="margin:20px auto; width:900px">
+
+<div style='border: solid 1px; margin-left:100px;margin-right:100px'>
+<table align="center" cellpadding=0 cellspacing=0 width=900 style='border: solid white 1px
+;width:900px;padding:10px;border-collapse:collapse;'>
+ <col width=44 style='mso-width-source:userset;mso-width-alt:1408;width:33pt'>
+ <col width=135 style='mso-width-source:userset;mso-width-alt:4320;width:101pt'>
+ <col width=93 span=2 style='mso-width-source:userset;mso-width-alt:2976;
+ width:70pt'>
+ <col width=62 style='mso-width-source:userset;mso-width-alt:1984;width:47pt'>
+ <col width=91 span=2 style='mso-width-source:userset;mso-width-alt:2912;
+ width:68pt'>
+ <col width=96 style='mso-width-source:userset;mso-width-alt:3072;width:72pt'>
+ <tr height=41 style='mso-height-source:userset;height:30.75pt'>
+  <td colspan=8 height=41 class=xl67 width=705 style='height:30.75pt;
+  width:529pt'>兰溪市江南红木家具有限公司送货单</td>
+ </tr>
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td height=28 class=xl65 colspan=3 style='height:21.0pt;mso-ignore:colspan'>购货单位：</td>
+  <td class=xl65 colspan=3>日期：</td>
+  <td class=xl65 colspan=2>送货单号：</td>
+ </tr>
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td height=28 class=xl66 style='height:21.0pt'>序号</td>
+  <td class=xl66 >产品名称</td>
+  <td class=xl66 >材质</td>
+  <td class=xl66 >规格型号</td>
+  <td class=xl66 >数量</td>
+  <td class=xl66 >单价（元）</td>
+  <td class=xl66 >金额（元）</td>
+  <td class=xl66 >附注</td>
+ </tr>
+        #set($bill = $model)           
+        #set($money = 0)
+				#foreach ($product in $bill.Products)
+        
+        #set($themoney = $product.Quantity*$product.UnitPrice)
+				<tr height=28 style='mso-height-source:userset;height:21.0pt'>
+					<td height=28 class=xl66 style='height:21.0pt;border-top:none'>$velocityCount</td>
+					<td class=xl66 style='border-top:none;border-left:1px solid black'>$product.Name</td>
+          <td class=xl66 style='border-top:none;border-left:1px solid black'>$product.Material</td>
+					<td class=xl66 style='border-top:none;border-left:1px solid black'>$product.Norm</td>
+          <td class=xl66 style='border-top:none;border-left:1px solid black'>$product.Quantity</td>
+					<td class=xl66 style='border-top:none;border-left:1px solid black'>$product.UnitPrice</td>
+					<td class=xl66 style='border-top:none;border-left:1px solid black'>$themoney</td>
+          <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+				</tr>
+   
+        #set($money = $money+$themoney)
+				#end
+ 
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td height=28 class=xl66 style='height:21.0pt;border-top:none'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+ </tr>
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td height=28 class=xl66 style='height:21.0pt;border-top:none'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+ </tr>
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td colspan=6 height=28 class=xl68 style='border-right:.5pt solid black;
+  height:21.0pt'>合计</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>$money</td>
+  <td class=xl66 style='border-top:none;border-left:1px solid black'>　</td>
+ </tr>
+ <tr height=29 style='mso-height-source:userset;height:21.75pt'>
+  <td height=29 class=xl65 colspan=2 style='height:21.75pt;mso-ignore:colspan'>仓库：</td>
+  <td class=xl65 colspan=2>提货人：</td>
+  <td class=xl65 colspan=2>车号：</td>
+  <td class=xl65 colspan=2 style='mso-ignore:colspan'>收货方签收：</td>
+ </tr>
+</table>
+</div>
+
+</body>
+
+</html>

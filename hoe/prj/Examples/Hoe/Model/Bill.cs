@@ -36,6 +36,7 @@ namespace Hoe.Basic.Model
 
         public ObjectId Id { get; set; }
         public String Phone{set; get;}
+        public int Ordinal { set; get; }
 
         private DateTime deliveryDate;
         public DateTime DeliveryDate 

@@ -41,10 +41,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.billMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.statUnfinishedBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打印订单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortBillsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ordinalSortMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBillMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -57,11 +59,12 @@
             this.backupRestoreButton = new System.Windows.Forms.Button();
             this.createBillButton = new System.Windows.Forms.Button();
             this.billsGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Deposit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ordinal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeliveryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Phone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Deposit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AssemblageOk = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Completed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ShipmentDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +95,7 @@
             this.returnAllBillProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cancelBillProductMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billProductsGridViewTimer = new System.Windows.Forms.Timer(this.components);
+            this.billsGridViewTimer = new System.Windows.Forms.Timer(this.components);
             this.billMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -121,9 +125,10 @@
             this.statUnfinishedBillMenuItem,
             this.打印订单ToolStripMenuItem,
             this.sortBillsMenuItem,
+            this.ordinalSortMenuItem,
             this.deleteBillMenuItem});
             this.billMenu.Name = "billMenu";
-            this.billMenu.Size = new System.Drawing.Size(161, 92);
+            this.billMenu.Size = new System.Drawing.Size(161, 114);
             // 
             // statUnfinishedBillMenuItem
             // 
@@ -137,13 +142,21 @@
             this.打印订单ToolStripMenuItem.Name = "打印订单ToolStripMenuItem";
             this.打印订单ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.打印订单ToolStripMenuItem.Text = "打印订单";
+            this.打印订单ToolStripMenuItem.Click += new System.EventHandler(this.打印订单ToolStripMenuItem_Click);
             // 
             // sortBillsMenuItem
             // 
             this.sortBillsMenuItem.Name = "sortBillsMenuItem";
             this.sortBillsMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.sortBillsMenuItem.Text = "整理";
+            this.sortBillsMenuItem.Text = "按提货日期整理";
             this.sortBillsMenuItem.Click += new System.EventHandler(this.sortBillsMenuItem_Click);
+            // 
+            // ordinalSortMenuItem
+            // 
+            this.ordinalSortMenuItem.Name = "ordinalSortMenuItem";
+            this.ordinalSortMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.ordinalSortMenuItem.Text = "按序号整理";
+            this.ordinalSortMenuItem.Click += new System.EventHandler(this.ordinalSortMenuItem_Click);
             // 
             // deleteBillMenuItem
             // 
@@ -168,7 +181,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1454, 533);
-            this.splitContainer1.SplitterDistance = 450;
+            this.splitContainer1.SplitterDistance = 650;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer3
@@ -190,8 +203,8 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.billsGridView);
             this.splitContainer3.Panel2MinSize = 100;
-            this.splitContainer3.Size = new System.Drawing.Size(450, 533);
-            this.splitContainer3.SplitterDistance = 110;
+            this.splitContainer3.Size = new System.Drawing.Size(650, 533);
+            this.splitContainer3.SplitterDistance = 80;
             this.splitContainer3.TabIndex = 0;
             // 
             // searchGroupBox
@@ -201,7 +214,7 @@
             this.searchGroupBox.Controls.Add(this.billProductSearchButton);
             this.searchGroupBox.Controls.Add(this.phoneSearchButton);
             this.searchGroupBox.Controls.Add(this.billSearchContentTextBox);
-            this.searchGroupBox.Location = new System.Drawing.Point(12, 41);
+            this.searchGroupBox.Location = new System.Drawing.Point(3, 9);
             this.searchGroupBox.Name = "searchGroupBox";
             this.searchGroupBox.Size = new System.Drawing.Size(285, 63);
             this.searchGroupBox.TabIndex = 9;
@@ -256,7 +269,7 @@
             // 
             // backupRestoreButton
             // 
-            this.backupRestoreButton.Location = new System.Drawing.Point(112, 12);
+            this.backupRestoreButton.Location = new System.Drawing.Point(385, 34);
             this.backupRestoreButton.Name = "backupRestoreButton";
             this.backupRestoreButton.Size = new System.Drawing.Size(75, 23);
             this.backupRestoreButton.TabIndex = 6;
@@ -266,7 +279,7 @@
             // 
             // createBillButton
             // 
-            this.createBillButton.Location = new System.Drawing.Point(12, 12);
+            this.createBillButton.Location = new System.Drawing.Point(304, 34);
             this.createBillButton.Name = "createBillButton";
             this.createBillButton.Size = new System.Drawing.Size(75, 23);
             this.createBillButton.TabIndex = 0;
@@ -287,11 +300,12 @@
             this.billsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.billsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.billsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.Deposit,
+            this.Ordinal,
             this.Number,
             this.DeliveryDate,
             this.Phone,
+            this.dataGridViewTextBoxColumn1,
+            this.Deposit,
             this.AssemblageOk,
             this.Completed,
             this.ShipmentDate,
@@ -303,11 +317,58 @@
             this.billsGridView.RowHeadersVisible = false;
             this.billsGridView.RowTemplate.Height = 23;
             this.billsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.billsGridView.Size = new System.Drawing.Size(450, 419);
+            this.billsGridView.Size = new System.Drawing.Size(650, 449);
             this.billsGridView.TabIndex = 0;
             this.billsGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.billsGridView_CellContentClick);
+            this.billsGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.billsGridView_CellEndEdit);
+            this.billsGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.billsGridView_CellValidating);
             this.billsGridView.SelectionChanged += new System.EventHandler(this.girdView_currentBillChanged);
             this.billsGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.billsGridView_MouseClick);
+            // 
+            // Ordinal
+            // 
+            this.Ordinal.DataPropertyName = "Ordinal";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Ordinal.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Ordinal.HeaderText = "*序号";
+            this.Ordinal.Name = "Ordinal";
+            this.Ordinal.Width = 70;
+            // 
+            // Number
+            // 
+            this.Number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Number.DataPropertyName = "Number";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Number.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Number.FillWeight = 50F;
+            this.Number.HeaderText = "编号";
+            this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
+            this.Number.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // DeliveryDate
+            // 
+            this.DeliveryDate.DataPropertyName = "DeliveryDate";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = "未知";
+            this.DeliveryDate.DefaultCellStyle = dataGridViewCellStyle4;
+            this.DeliveryDate.HeaderText = "提货日期";
+            this.DeliveryDate.Name = "DeliveryDate";
+            this.DeliveryDate.ReadOnly = true;
+            this.DeliveryDate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.DeliveryDate.Width = 90;
+            // 
+            // Phone
+            // 
+            this.Phone.DataPropertyName = "Phone";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Phone.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Phone.HeaderText = "电话";
+            this.Phone.Name = "Phone";
+            this.Phone.ReadOnly = true;
+            this.Phone.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Phone.Width = 90;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -325,42 +386,6 @@
             this.Deposit.Visible = false;
             this.Deposit.Width = 5;
             // 
-            // Number
-            // 
-            this.Number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Number.DataPropertyName = "Number";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Number.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Number.FillWeight = 50F;
-            this.Number.HeaderText = "编号";
-            this.Number.Name = "Number";
-            this.Number.ReadOnly = true;
-            this.Number.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // DeliveryDate
-            // 
-            this.DeliveryDate.DataPropertyName = "DeliveryDate";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = "未知";
-            this.DeliveryDate.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DeliveryDate.HeaderText = "提货日期";
-            this.DeliveryDate.Name = "DeliveryDate";
-            this.DeliveryDate.ReadOnly = true;
-            this.DeliveryDate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DeliveryDate.Width = 90;
-            // 
-            // Phone
-            // 
-            this.Phone.DataPropertyName = "Phone";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Phone.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Phone.HeaderText = "电话";
-            this.Phone.Name = "Phone";
-            this.Phone.ReadOnly = true;
-            this.Phone.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Phone.Width = 90;
-            // 
             // AssemblageOk
             // 
             this.AssemblageOk.DataPropertyName = "AssemblageOk";
@@ -374,22 +399,21 @@
             // 
             this.Completed.DataPropertyName = "Completed";
             this.Completed.FalseValue = "false";
-            this.Completed.HeaderText = "完成出货";
+            this.Completed.HeaderText = "*完成出货";
             this.Completed.Name = "Completed";
             this.Completed.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Completed.TrueValue = "true";
-            this.Completed.Width = 60;
+            this.Completed.Width = 75;
             // 
             // ShipmentDate
             // 
             this.ShipmentDate.DataPropertyName = "ShipmentDate";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ShipmentDate.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ShipmentDate.DefaultCellStyle = dataGridViewCellStyle6;
             this.ShipmentDate.HeaderText = "出货日期";
             this.ShipmentDate.Name = "ShipmentDate";
             this.ShipmentDate.ReadOnly = true;
             this.ShipmentDate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ShipmentDate.Width = 90;
             // 
             // Remark
             // 
@@ -419,7 +443,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.depositTextBox);
             this.splitContainer2.Panel2.Controls.Add(this.depositLabel);
             this.splitContainer2.Panel2.Controls.Add(this.totalPriceLabel);
-            this.splitContainer2.Size = new System.Drawing.Size(1000, 533);
+            this.splitContainer2.Size = new System.Drawing.Size(800, 533);
             this.splitContainer2.SplitterDistance = 462;
             this.splitContainer2.TabIndex = 3;
             // 
@@ -440,13 +464,13 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.bill_productsGridView);
-            this.splitContainer4.Size = new System.Drawing.Size(1000, 462);
+            this.splitContainer4.Size = new System.Drawing.Size(800, 462);
             this.splitContainer4.SplitterDistance = 30;
             this.splitContainer4.TabIndex = 2;
             // 
             // showRepoButton
             // 
-            this.showRepoButton.Location = new System.Drawing.Point(919, 4);
+            this.showRepoButton.Location = new System.Drawing.Point(457, 5);
             this.showRepoButton.Margin = new System.Windows.Forms.Padding(2);
             this.showRepoButton.Name = "showRepoButton";
             this.showRepoButton.Size = new System.Drawing.Size(79, 23);
@@ -467,14 +491,14 @@
             // bill_productsGridView
             // 
             this.bill_productsGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.bill_productsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.bill_productsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.bill_productsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bill_productsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PName,
@@ -494,7 +518,7 @@
             this.bill_productsGridView.RowHeadersVisible = false;
             this.bill_productsGridView.RowTemplate.Height = 24;
             this.bill_productsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.bill_productsGridView.Size = new System.Drawing.Size(1000, 428);
+            this.bill_productsGridView.Size = new System.Drawing.Size(800, 428);
             this.bill_productsGridView.TabIndex = 2;
             this.bill_productsGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.bill_productsGridView_CellEndEdit);
             this.bill_productsGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.bill_productsDataGridView_CellValidating);
@@ -504,8 +528,8 @@
             // PName
             // 
             this.PName.DataPropertyName = "Name";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PName.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PName.DefaultCellStyle = dataGridViewCellStyle8;
             this.PName.HeaderText = "名称";
             this.PName.Name = "PName";
             this.PName.ReadOnly = true;
@@ -528,8 +552,8 @@
             // Material
             // 
             this.Material.DataPropertyName = "Material";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Material.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Material.DefaultCellStyle = dataGridViewCellStyle9;
             this.Material.HeaderText = "材料";
             this.Material.Name = "Material";
             this.Material.ReadOnly = true;
@@ -539,8 +563,8 @@
             // 
             this.Norm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Norm.DataPropertyName = "Norm";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Norm.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Norm.DefaultCellStyle = dataGridViewCellStyle10;
             this.Norm.HeaderText = "规格";
             this.Norm.Name = "Norm";
             this.Norm.ReadOnly = true;
@@ -548,8 +572,8 @@
             // Demand
             // 
             this.Demand.DataPropertyName = "Demand";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Demand.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Demand.DefaultCellStyle = dataGridViewCellStyle11;
             this.Demand.HeaderText = "需求";
             this.Demand.Name = "Demand";
             this.Demand.ReadOnly = true;
@@ -558,8 +582,8 @@
             // Quantity
             // 
             this.Quantity.DataPropertyName = "Quantity";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle12;
             this.Quantity.HeaderText = "数量";
             this.Quantity.Name = "Quantity";
             this.Quantity.ReadOnly = true;
@@ -575,15 +599,15 @@
             // UnitPrice
             // 
             this.UnitPrice.DataPropertyName = "UnitPrice";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.UnitPrice.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UnitPrice.DefaultCellStyle = dataGridViewCellStyle13;
             this.UnitPrice.HeaderText = "*单价(元)";
             this.UnitPrice.Name = "UnitPrice";
             // 
             // billRemarkTextBox
             // 
             this.billRemarkTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.billRemarkTextBox.Location = new System.Drawing.Point(559, 11);
+            this.billRemarkTextBox.Location = new System.Drawing.Point(472, 11);
             this.billRemarkTextBox.Multiline = true;
             this.billRemarkTextBox.Name = "billRemarkTextBox";
             this.billRemarkTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -594,7 +618,7 @@
             // billRemarkLabel
             // 
             this.billRemarkLabel.AutoSize = true;
-            this.billRemarkLabel.Location = new System.Drawing.Point(500, 15);
+            this.billRemarkLabel.Location = new System.Drawing.Point(413, 13);
             this.billRemarkLabel.Name = "billRemarkLabel";
             this.billRemarkLabel.Size = new System.Drawing.Size(53, 12);
             this.billRemarkLabel.TabIndex = 0;
@@ -603,7 +627,7 @@
             // depositTextBox
             // 
             this.depositTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.depositTextBox.Location = new System.Drawing.Point(67, 11);
+            this.depositTextBox.Location = new System.Drawing.Point(94, 11);
             this.depositTextBox.Name = "depositTextBox";
             this.depositTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.depositTextBox.Size = new System.Drawing.Size(94, 21);
@@ -613,7 +637,7 @@
             // depositLabel
             // 
             this.depositLabel.AutoSize = true;
-            this.depositLabel.Location = new System.Drawing.Point(13, 15);
+            this.depositLabel.Location = new System.Drawing.Point(40, 15);
             this.depositLabel.Name = "depositLabel";
             this.depositLabel.Size = new System.Drawing.Size(53, 12);
             this.depositLabel.TabIndex = 4;
@@ -622,7 +646,7 @@
             // totalPriceLabel
             // 
             this.totalPriceLabel.AutoSize = true;
-            this.totalPriceLabel.Location = new System.Drawing.Point(190, 15);
+            this.totalPriceLabel.Location = new System.Drawing.Point(217, 15);
             this.totalPriceLabel.Name = "totalPriceLabel";
             this.totalPriceLabel.Size = new System.Drawing.Size(53, 12);
             this.totalPriceLabel.TabIndex = 3;
@@ -678,6 +702,10 @@
             // billProductsGridViewTimer
             // 
             this.billProductsGridViewTimer.Tick += new System.EventHandler(this.billProductsGridView_timer_Tick);
+            // 
+            // billsGridViewTimer
+            // 
+            this.billsGridViewTimer.Tick += new System.EventHandler(this.billsGridViewTimer_Tick);
             // 
             // BillsForm
             // 
@@ -751,15 +779,6 @@
         private System.Windows.Forms.ToolStripMenuItem cancelBillProductMenuItem;
         private System.Windows.Forms.Timer billProductsGridViewTimer;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Deposit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Number;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DeliveryDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Phone;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AssemblageOk;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Completed;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ShipmentDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn PName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
@@ -770,6 +789,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn productRemark;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
         private System.Windows.Forms.ToolStripMenuItem 打印订单ToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ordinal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DeliveryDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Phone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Deposit;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AssemblageOk;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Completed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ShipmentDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
+        private System.Windows.Forms.ToolStripMenuItem ordinalSortMenuItem;
+        private System.Windows.Forms.Timer billsGridViewTimer;
     }
 }
 

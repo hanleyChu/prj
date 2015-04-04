@@ -55,8 +55,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="vm\deliverysheet.vm" />
     <None Include="vm\unfinishedBills.vm" />
-    <Content Include="vm\style.css" />
+    <Content Include="vm\deliverysheet-style.css" />
+    <Content Include="vm\unfinishedBills-style.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Core\HtmlReporterForm.resx">

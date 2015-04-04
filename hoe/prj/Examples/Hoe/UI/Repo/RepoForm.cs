@@ -16,6 +16,8 @@ using Hoe.Basic.AppLogic;
 using Hoe.Basic.Model;
 using System.Collections;
 using Hoe.App.UI.Dialog;
+using Hoe.Basic.DAO;
+using MVCSharp.Examples.Basics.DAO;
 
 
 namespace Hoe.UI.Repo
@@ -160,8 +162,7 @@ namespace Hoe.UI.Repo
 
         private void backToSemiProductMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("你确定要撤回这个货到半成品库?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-            {
+
                 Product product = CurrentProduct;
                 int maxCount = product.Quantity;
                 int demand = product.Demand;
@@ -178,29 +179,32 @@ namespace Hoe.UI.Repo
                 pwd.Show();
                 dynamic result = pwd.GetDialogResult();
 
-                SemiProduct semiproduct = semiproducts.Single(x => x.WarehousingDate.Date == result.WarehousingDate.Date);
-                if (semiproduct.InitialQuantity - semiproduct.Quantity < result.Count)
+                if (result != null)
                 {
-                    MessageBox.Show("撤回的数量太多，超过了该半成品批次的初始库存");
-                    return;
-                }
+                    SemiProduct semiproduct = semiproducts.Single(x => x.WarehousingDate.Date == result.WarehousingDate.Date);
+                    if (semiproduct.InitialQuantity - semiproduct.Quantity < result.Count)
+                    {
+                        MessageBox.Show("撤回的数量太多，超出了初始库存数");
+                        return;
+                    }
 
-                product.Quantity -= result.Count;
-                if (product.Demand == 0 && product.Quantity==0) 
-                {
-                    // update product
-                    (this.productsDataGridView.DataSource as BindingSource).Remove(CurrentProduct);
-                    (Controller as RepoController).DeleteProduct(product);
-                }
-                else
-                {
-                    (Controller as RepoController).UpdateProduct(product);
-                }
+                    product.Quantity -= result.Count;
+                    if (product.Demand == 0 && product.Quantity == 0)
+                    {
+                        // update product
+                        (this.productsDataGridView.DataSource as BindingSource).Remove(CurrentProduct);
+                        (Controller as RepoController).DeleteProduct(product);
+                    }
+                    else
+                    {
+                        (Controller as RepoController).UpdateProduct(product);
+                    }
 
-                // update semiproduct
-                (Controller as RepoController).WithdrawProductsToSemiProducts(product, result.WarehousingDate, result.Count); 
+                    // update semiproduct
+                    (Controller as RepoController).WithdrawProductsToSemiProducts(product, result.WarehousingDate, result.Count);
+                }
                 
-            }
+
 
         }
 
@@ -281,12 +285,11 @@ namespace Hoe.UI.Repo
             (Controller as RepoController).UpdateProduct(CurrentProduct);
         }
 
+        private SemiProduct lastModifiedSemiProduct = null;
         private void semiproductsDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            //only end edit mode, we can get the real updated value
-            this.semiproductsDataGridView.EndEdit();
-
-            (Controller as RepoController).UpdateSemiProduct(CurrentSemiProduct);
+            semiproductsDataGridViewTimer.Enabled = true;
+            lastModifiedSemiProduct = CurrentSemiProduct;
         }
 
         private void nameOrNormOfProductTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -318,9 +321,9 @@ namespace Hoe.UI.Repo
         private void addToProductBtn_Click(object sender, EventArgs e)
         {
             int count;
-            if (!int.TryParse(this.countOfSemiProductTextbox.Text, out count) || count <= 0)
+            if (!int.TryParse(this.countOfSemiProductTextbox.Text, out count) || count < 0)
             {
-                MessageBox.Show("分配数必须为正整数");
+                MessageBox.Show("分配数不能为负数");
                 return;
             }
             (Controller as RepoController).AddCurrentSemiProductToProduct(CurrentSemiProduct,count);
@@ -389,6 +392,45 @@ namespace Hoe.UI.Repo
         private void findAllSemiProductBtn_Click(object sender, EventArgs e)
         {
             (Controller as RepoController).FilterSemiProducts("", "");
+        }
+
+        private void semiproductsDataGridViewTimer_Tick(object sender, EventArgs e)
+        {
+            this.semiproductsDataGridViewTimer.Enabled = false;
+            (Controller as RepoController).UpdateSemiProduct(lastModifiedSemiProduct);
+        }
+
+        private void 检查数据错误修复ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Product product = CurrentProduct;
+            List<Bill> all_bills = BillDao.GetAll();
+
+            int actual_demand = 0;
+            int actual_quantity = 0;
+
+            foreach(Bill b in all_bills)
+            {
+                Product p = b.Products.SingleOrDefault(x=>x.Equals(product));
+                if(p!=null)
+                {
+                    actual_demand+=p.Demand;
+                    actual_quantity+=p.Quantity;
+                }
+            }
+
+            product.Demand = actual_demand-actual_quantity;
+
+            IEnumerable<SemiProduct> all_semiproducts = SemiProductDao.GetAll().FindAll(x=>(x.Name.Equals(product.Name) && x.Material.Equals(product.Material) && x.Norm.Equals(product.Norm)));
+            int offered = 0;
+            foreach (SemiProduct sp in all_semiproducts)
+            {
+               offered += sp.InitialQuantity-sp.Quantity;
+            }
+
+            product.Quantity = offered - actual_quantity;
+
+            (Controller as RepoController).UpdateProduct(product);
+
         }    
 
     }

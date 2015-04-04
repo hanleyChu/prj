@@ -38,7 +38,7 @@ namespace Hoe.Basic.Controller
 
                 (Task as SaleTask).Bills = BillDao.GetAll();// todo ,load from database
 
-                SortBills();
+                DefaultSortBills();
             }
         }
 
@@ -136,6 +136,7 @@ namespace Hoe.Basic.Controller
             Task.TasksManager.StartTask(typeof(BackupRestoreTask), Task);
         }
 
+
         public void SortBills()
         {
             List<Bill> bills = (Task as SaleTask).Bills;
@@ -147,6 +148,33 @@ namespace Hoe.Basic.Controller
                 (Task as SaleTask).Bills = sortedBills;
             }
         }
+
+        public void OrdinalSortBills()
+        {
+            List<Bill> bills = (Task as SaleTask).Bills;
+            if (bills != null)
+            {
+                // sort bills by completed descending and deliveryDate ascending where b is completed
+                List<Bill> sortedBills = (from b in bills orderby b.Ordinal ascending select b).ToList();
+
+                (Task as SaleTask).Bills = sortedBills;
+            }
+        }
+
+        // Ordinal and Uncompeleted
+        public void DefaultSortBills()
+        {
+            List<Bill> bills = (Task as SaleTask).Bills;
+            if (bills != null)
+            {
+                // sort bills by completed descending and deliveryDate ascending where b is completed
+                List<Bill> sortedBills = (from b in bills where b.Completed == false orderby b.Ordinal ascending select b).ToList();
+
+                (Task as SaleTask).Bills = sortedBills;
+            }
+        }
+
+        
 
         public void FilterBillsByPhone(String phone)
         {

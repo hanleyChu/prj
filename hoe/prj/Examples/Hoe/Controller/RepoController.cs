@@ -263,10 +263,16 @@ namespace Hoe.Basic.Controller
                 ProductChangeEventArg eventArg = (e as ProductChangeEventArg);
                 Product product = eventArg.ChangedProduct;
 
-                //if (eventArg.ChangingType != ModelChangeEventArg.UPDATE)
-                //{
+                // select the sepecific one and put changes on it
+                Product productInList = (Task as SaleTask).Products.SingleOrDefault(x => x.Equals(product));
+                if (productInList != null)
+                {
+                    productInList.Set(product);
+                }
+                if (eventArg.ChangingType != ModelChangeEventArg.UPDATE)
+                {
                     (View as IRepoView).ShowProductsList((Task as SaleTask).Products);
-                //}
+                }
                 (View as IRepoView).SelectProductInList(product);
                 SetCurrentRepoProduct(product);
 
@@ -287,10 +293,19 @@ namespace Hoe.Basic.Controller
                 SemiProductChangeEventArg eventArg = (e as SemiProductChangeEventArg);
                 SemiProduct semiproduct = eventArg.ChangedSemiProduct;
 
+                
+                // select the sepecific one and put changes on it
+                SemiProduct semiproductInList = (Task as SaleTask).SemiProducts.SingleOrDefault(x => x.Equals(semiproduct));
+                if (semiproductInList!=null)
+                {
+                    semiproductInList.Set(semiproduct);
+                }
+
                 if (eventArg.ChangingType != ModelChangeEventArg.UPDATE)
                 {
                     (View as IRepoView).ShowSemiProductsList((Task as SaleTask).SemiProducts);
                 }
+
                 (View as IRepoView).SelectSemiProductInList(semiproduct);
                 SetCurrentRepoSemiProduct(semiproduct);
 

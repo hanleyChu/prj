@@ -32,13 +32,21 @@ namespace Hoe.UI.Sale
             DateTime deliveryDate = this.deliveryDateTimePicker.Value;
             String remark = this.remarkTextBox.Text;
 
+            int oridnal;
+            if(!int.TryParse(this.ordinalTextbox.Text,out oridnal))
+            {
+                MessageBox.Show("序号必须为正数");
+                return;
+            }
+
             Bill bill = new Bill()
             {
                 Number = number,
                 Phone = phone,
                 DeliveryDate = deliveryDate,
                 Remark = remark,
-                Completed = false
+                Completed = false,
+                Ordinal = oridnal
             };
 
             (Controller as BillController).NewBill(bill);

@@ -224,31 +224,34 @@ namespace Hoe.UI.Sale
             
         }
 
+        private Bill lastModifiedBill = null;
         //--------------------------------------------
         private void bill_productsGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //解决SetCurrentCellAddressCore函数的可重入调用.交给billProductsGridViewTimer来处理
-            billProductsGridViewTimer.Enabled = true;   
+            billProductsGridViewTimer.Enabled = true;
+            lastModifiedBill = CurrentBill;
+
         }
         private void billProductsGridView_timer_Tick(object sender, EventArgs e)
         {
             billProductsGridViewTimer.Enabled = false;
 
-            (Controller as BillsController).UpdateBill(CurrentBill);
+            (Controller as BillsController).UpdateBill(lastModifiedBill);
             CalculateAndShowTotalPrice();
         }
         //--------------------------------------------
 
         private void billsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //only if we leave the edit mode, could we get the real updated value
-            this.billsGridView.EndEdit();
-
             string columnName = this.billsGridView.Columns[e.ColumnIndex].DataPropertyName;
 
             // Abort validation if cell is not in the Quantity column. 
             if (columnName.Equals("Completed"))
             {
+                //only if we leave the edit mode, could we get the real updated value
+                this.billsGridView.EndEdit();
+
                 if (CurrentBill.AssemblageOK == false && CurrentBill.Completed == true)
                 {
                     MessageBox.Show("配货还没完成呢");
@@ -266,10 +269,11 @@ namespace Hoe.UI.Sale
                 {
                     CurrentBill.ShipmentDate = null;
                 }
-                
+
+                (Controller as BillsController).UpdateBill(CurrentBill);
             }
 
-            (Controller as BillsController).UpdateBill(CurrentBill);
+            
 
         }
 
@@ -305,7 +309,7 @@ namespace Hoe.UI.Sale
             String phone = this.billSearchContentTextBox.Text.Trim();
             if (String.IsNullOrEmpty(phone))
             {
-                MessageBox.Show("求输入电话号码，哥");
+                MessageBox.Show("请输入电话号码");
                 return;
             }
             else
@@ -393,6 +397,46 @@ namespace Hoe.UI.Sale
         private void returnAllBillProductMenuItem_Click(object sender, EventArgs e)
         {
             (Controller as BillsController).ReturnProductToRepo(CurrentBillProduct, CurrentBillProduct.Quantity);
+        }
+
+        private void 打印订单ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            reporter.Display("deliverysheet.vm", CurrentBill);
+        }
+
+        private void ordinalSortMenuItem_Click(object sender, EventArgs e)
+        {
+            (Controller as BillsController).OrdinalSortBills();
+        }
+
+        private void billsGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            string columnName = this.billsGridView.Columns[e.ColumnIndex].DataPropertyName;
+
+            // Abort validation if cell is not in the UnitPrice column. 
+            if (columnName.Equals("Ordinal"))
+            {
+                String newValue = e.FormattedValue.ToString();
+                float result;
+                if (!float.TryParse(newValue as String, out result) || result < 0)
+                {
+                    MessageBox.Show("请输入合法的数字");
+                    e.Cancel = true;
+                    return;
+                }
+            }
+        }
+
+        private void billsGridViewTimer_Tick(object sender, EventArgs e)
+        {
+            this.billsGridViewTimer.Enabled = false;
+            (Controller as BillsController).UpdateBill(lastModifiedBill);
+        }
+
+        private void billsGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            lastModifiedBill = CurrentBill;
+            this.billsGridViewTimer.Enabled = true;  
         }
 
         

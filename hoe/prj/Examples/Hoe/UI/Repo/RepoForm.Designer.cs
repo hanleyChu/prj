@@ -100,6 +100,8 @@
             this.菜单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSemiProductToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.semiproductsDataGridViewTimer = new System.Windows.Forms.Timer(this.components);
+            this.检查数据错误修复ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leftRightSplitContainer)).BeginInit();
             this.leftRightSplitContainer.Panel1.SuspendLayout();
@@ -135,14 +137,15 @@
             // productMenu
             // 
             this.productMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.backToSemiproductMenuItem});
+            this.backToSemiproductMenuItem,
+            this.检查数据错误修复ToolStripMenuItem});
             this.productMenu.Name = "productMenu";
-            this.productMenu.Size = new System.Drawing.Size(149, 26);
+            this.productMenu.Size = new System.Drawing.Size(173, 70);
             // 
             // backToSemiproductMenuItem
             // 
             this.backToSemiproductMenuItem.Name = "backToSemiproductMenuItem";
-            this.backToSemiproductMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.backToSemiproductMenuItem.Size = new System.Drawing.Size(172, 22);
             this.backToSemiproductMenuItem.Text = "撤回到半成品";
             this.backToSemiproductMenuItem.Click += new System.EventHandler(this.backToSemiProductMenuItem_Click);
             // 
@@ -736,16 +739,27 @@
             // billsToolStripMenuItem
             // 
             this.billsToolStripMenuItem.Name = "billsToolStripMenuItem";
-            this.billsToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.billsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.billsToolStripMenuItem.Text = "打开订单";
             this.billsToolStripMenuItem.Click += new System.EventHandler(this.showBillsViewToolStripMenuItem_Click);
             // 
             // addSemiProductToolStripMenuItem
             // 
             this.addSemiProductToolStripMenuItem.Name = "addSemiProductToolStripMenuItem";
-            this.addSemiProductToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.addSemiProductToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addSemiProductToolStripMenuItem.Text = "新货入库";
             this.addSemiProductToolStripMenuItem.Click += new System.EventHandler(this.addSemiProductToolStripMenuItem_Click);
+            // 
+            // semiproductsDataGridViewTimer
+            // 
+            this.semiproductsDataGridViewTimer.Tick += new System.EventHandler(this.semiproductsDataGridViewTimer_Tick);
+            // 
+            // 检查数据错误修复ToolStripMenuItem
+            // 
+            this.检查数据错误修复ToolStripMenuItem.Name = "检查数据错误修复ToolStripMenuItem";
+            this.检查数据错误修复ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.检查数据错误修复ToolStripMenuItem.Text = "检查数据错误修复";
+            this.检查数据错误修复ToolStripMenuItem.Click += new System.EventHandler(this.检查数据错误修复ToolStripMenuItem_Click);
             // 
             // RepoForm
             // 
@@ -855,5 +869,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
+        private System.Windows.Forms.Timer semiproductsDataGridViewTimer;
+        private System.Windows.Forms.ToolStripMenuItem 检查数据错误修复ToolStripMenuItem;
     }
 }

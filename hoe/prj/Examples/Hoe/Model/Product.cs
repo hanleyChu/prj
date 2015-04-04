@@ -43,6 +43,23 @@ namespace Hoe.Basic.Model
         public String Remark { set; get; }
         public float UnitPrice { set; get; }
 
+        public void Set(Product p)
+        {
+            if (this.Name.Equals(p.Name) &&
+                this.Material.Equals(p.Material) &&
+                this.Norm.Equals(p.Norm))
+            {
+                this.Quantity = p.Quantity;
+                this.Demand = p.Demand;
+                this.Remark = p.Remark;
+                this.UnitPrice = p.UnitPrice;
+            }
+            else
+            {
+                throw new Exception("不能对不同类型的product调用set方法");
+            }
+        }
+
         public object Clone()
         {
             Product clone = this.MemberwiseClone() as Product;
